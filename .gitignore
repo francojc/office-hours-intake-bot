@@ -1,0 +1,31 @@
+# Build artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+
+# Dependencies
+.venv/
+
+# Environment and secrets
+.env
+.env.local
+*.pem
+credentials.json
+
+# Models and adapters (large binary files)
+models/
+adapters/
+
+# Vector store
+chroma_db/
+
+# IDE and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Conversation logs (privacy)
+conversation_logs/
