@@ -1,0 +1,42 @@
+[project]
+name = "office-hours-intake-bot"
+version = "0.1.0"
+description = "AI-powered student intake chatbot for Cal.com office hours"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "pydantic>=2.10",
+    "pydantic-settings>=2.7",
+    "mlx-lm>=0.21",
+    "llama-index>=0.12",
+    "llama-index-vector-stores-chroma>=0.4",
+    "chromadb>=0.6",
+    "sentence-transformers>=3.4",
+    "httpx>=0.28",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.25",
+    "ruff>=0.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 80
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

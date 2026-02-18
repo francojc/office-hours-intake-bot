@@ -25,8 +25,8 @@ uv run mlx_lm.convert --hf-path Qwen/Qwen2.5-3B-Instruct --mlx-path ./models/qwe
 # Fine-tune with LoRA
 uv run mlx_lm.lora --model ./models/qwen2.5-3b --train --data ./training-data/ --adapter-path ./adapters/intake-bot-v1
 
-# Expose via tunnel
-cloudflared tunnel --url http://localhost:8000
+# Expose via Tailscale Funnel
+tailscale funnel 8000
 ```
 
 ## Project Structure
@@ -64,7 +64,7 @@ office-hours-intake-bot/
 - **RAG:** LlamaIndex + ChromaDB + sentence-transformers
 - **Package Manager:** uv
 - **Frontend:** Vanilla HTML/JS (no build step)
-- **External Services:** Cal.com (webhooks + API), Cloudflare Tunnel
+- **External Services:** Cal.com (webhooks + API), Tailscale Funnel
 
 ## Architecture
 
@@ -98,4 +98,4 @@ FastAPI monolith with embedded LLM inference. Flow:
 - MLX-LM requires Apple Silicon; will not work on Intel Macs
 - ChromaDB is embedded (no separate process needed)
 - Cal.com webhook support depends on plan tier; verify before building integration
-- The base flake.nix template is academic-focused; customize for this project's Python/ML stack
+- Tailscale Funnel must be enabled on the tailnet; run `tailscale funnel 8000` to expose the dev server

@@ -108,8 +108,8 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 # Run in production
 uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
 
-# Expose via Cloudflare Tunnel
-cloudflared tunnel --url http://localhost:8000
+# Expose via Tailscale Funnel
+tailscale funnel 8000
 ```
 
 ### Model Operations
@@ -236,3 +236,4 @@ uv run pytest --cov=app
 | 2026-02-17 | Conversation log stored separately from summary | Summary is the delivery artifact; logs kept locally for privacy | Embedding full transcript in summary JSON |
 | 2026-02-17 | Non-course flow for colleagues | 3-4 turn lightweight path; avoids forcing non-students through course taxonomy | Single flow for all visitors |
 | 2026-02-17 | Snake_case subcategory vocabulary | Consistent labels for fine-tuning and analysis; model picks from fixed list | Free-text subcategories |
+| 2026-02-18 | Tailscale Funnel instead of Cloudflare Tunnel | Already in use on the tailnet; simpler (no extra daemon); stable HTTPS URL | Cloudflare Tunnel (extra process, more config) |

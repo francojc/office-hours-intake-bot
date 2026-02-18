@@ -15,7 +15,7 @@
           python311
           uv
           ruff
-          cloudflared
+          tailscale
           direnv
         ];
 

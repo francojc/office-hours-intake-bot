@@ -9,7 +9,7 @@
 ### Software Description
 
 - **Application Type:** Web application (FastAPI backend + chat widget frontend)
-- **Target Platform:** macOS (Mac Mini M4), accessed via Cloudflare Tunnel
+- **Target Platform:** macOS (Mac Mini M4), accessed via Tailscale Funnel
 - **Primary Language:** Python 3.11+
 - **Key Libraries/Frameworks:** FastAPI, MLX-LM, LlamaIndex, ChromaDB, sentence-transformers, uv
 
@@ -49,7 +49,7 @@
 
 ### External Dependencies
 
-- **APIs and Services:** Cal.com (webhooks, booking API), Cloudflare Tunnel
+- **APIs and Services:** Cal.com (webhooks, booking API), Tailscale Funnel
 - **Data Sources:** Course syllabi, assignment descriptions, grammar topics, common error patterns (local files)
 - **Build Tools:** uv (package management), MLX-LM (model conversion and fine-tuning)
 
@@ -76,7 +76,7 @@
 - [ ] Set up Python environment with uv
 - [ ] Download and benchmark base model (Qwen2.5 3B Instruct)
 - [ ] Stand up minimal FastAPI endpoint with baseline model
-- [ ] Configure Cloudflare Tunnel for external access
+- [ ] Configure Tailscale Funnel for external access
 
 ### Phase 2: RAG Pipeline (Weeks 2-3)
 
@@ -125,7 +125,7 @@
 ### Infrastructure
 
 - Mac Mini M4 as local server
-- Cloudflare Tunnel for HTTPS access
+- Tailscale Funnel for HTTPS access
 - Cal.com (existing booking platform)
 - Email service for summary delivery
 
@@ -140,7 +140,7 @@
 ### Technical Risks
 
 - Model quality insufficient at 3B params: benchmark against 7B, upgrade if needed
-- Cloudflare tunnel instability: add health check + auto-restart
+- Tailscale Funnel instability: add health check + auto-restart
 - M4 thermal throttling under load: unlikely with single-user sequential load
 
 ### Scope Risks

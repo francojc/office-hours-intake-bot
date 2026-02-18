@@ -106,7 +106,7 @@
 
 - **Cal.com:** Webhook support needs verification on current plan
 - **MLX-LM:** Requires Apple Silicon (confirmed: Mac Mini M4)
-- **Cloudflare Tunnel:** Free tier should be sufficient
+- **Tailscale Funnel:** Already available on the tailnet
 
 ### Pending Updates
 
@@ -133,7 +133,7 @@
 - [ ] Set up Python environment with uv and core dependencies
 - [ ] Download and benchmark Qwen2.5 3B Instruct on Mac Mini M4
 - [ ] Stand up minimal FastAPI /chat endpoint with baseline model
-- [ ] Configure Cloudflare Tunnel for external access
+- [ ] Configure Tailscale Funnel for external access
 
 ### Medium-term Goals (Next Month)
 
