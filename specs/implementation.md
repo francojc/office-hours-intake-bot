@@ -66,9 +66,9 @@ office-hours-intake-bot/
    - **Dependencies:** LlamaIndex, ChromaDB, sentence-transformers
 
 3. **app/webhooks.py — Cal.com Integration**
-   - **Purpose:** Handles incoming webhooks and outgoing API calls to Cal.com
+   - **Purpose:** Handles incoming webhooks (https://cal.com/docs/developing/guides/automation/webhooks) and outgoing API calls to Cal.com
    - **Public Interface:** `booking_confirmed()` endpoint, `update_booking_notes()`
-   - **Dependencies:** httpx, Cal.com API
+   - **Dependencies:** httpx, Cal.com API (https://cal.com/docs/api-reference/v2/)
 
 4. **app/summary.py — Summary Generation**
    - **Purpose:** Validates and formats the structured intake summary
