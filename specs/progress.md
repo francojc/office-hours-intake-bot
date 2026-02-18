@@ -1,27 +1,31 @@
 # Application Project Progress
 
 **Project:** Office Hours Intake Bot
-**Status:** Planning
+**Status:** Phase 0 Complete — Ready for Phase 1
 **Last Updated:** 2026-02-17
 
 ## Current Status Overview
 
 ### Development Phase
 
-- **Current Phase:** Architecture & Design (Phase 0)
-- **Phase Progress:** 0% complete
-- **Overall Project Progress:** 0% complete
+- **Current Phase:** Phase 0 complete; Phase 1 (Infrastructure Setup) next
+- **Phase Progress:** Phase 0: 100% complete
+- **Overall Project Progress:** ~15% complete
 
 ### Recent Accomplishments
 
 - Project concept documented in README.md - 2026-02-17
 - Project scaffolding and specs created - 2026-02-17
+- Intake summary JSON schema finalized (docs/intake-schema.json) - 2026-02-17
+- Course taxonomy created for SPA 212-T (rag-corpus/spa212/) - 2026-02-17
+- Dialogue flow designed with course and non-course paths (docs/dialogue-flow.md) - 2026-02-17
+- System prompt drafted (docs/system-prompt.md) - 2026-02-17
 
 ### Active Work
 
-- [ ] Finalize output JSON schema - target: Week 1
-- [ ] Define course taxonomy for SPA 212-T - target: Week 1
-- [ ] Sketch dialogue flowchart - target: Week 1
+- [ ] Set up Python environment with uv - target: Phase 1
+- [ ] Download and benchmark Qwen2.5 3B on Mac Mini M4 - target: Phase 1
+- [ ] Stand up baseline FastAPI endpoint - target: Phase 1
 
 ## Milestone Tracking
 
@@ -29,10 +33,10 @@
 
 - [x] ~~Project concept and architecture documented~~ - 2026-02-17
 - [x] ~~Project scaffolding created~~ - 2026-02-17
+- [x] ~~Phase 0 complete (design decisions locked)~~ - 2026-02-17
 
 ### Upcoming Milestones
 
-- [ ] Phase 0 complete (design decisions locked) - Target: end of Week 1
 - [ ] Phase 1 complete (baseline model serving) - Target: end of Week 2
 - [ ] Phase 2 complete (RAG pipeline working) - Target: end of Week 3
 - [ ] Phase 4 complete (fine-tuned model evaluated) - Target: end of Week 5
@@ -60,11 +64,15 @@
 
 ### Completed Features
 
-- None yet
+- [x] ~~Intake summary JSON schema~~ - 2026-02-17
+- [x] ~~Course taxonomy (grammar topics, common errors)~~ - 2026-02-17
+- [x] ~~Dialogue flow (course + non-course paths)~~ - 2026-02-17
+- [x] ~~System prompt template~~ - 2026-02-17
+- [x] ~~Office hours scope and referral resources~~ - 2026-02-17
 
 ### In Progress
 
-- [ ] Output JSON schema design - 0% complete
+- None (Phase 1 not started)
 
 ### Planned
 
@@ -122,10 +130,10 @@
 
 ### Immediate Actions (Next 2 Weeks)
 
-- [ ] Finalize output JSON schema based on real booking patterns
-- [ ] Document course taxonomy for SPA 212-T
 - [ ] Set up Python environment with uv and core dependencies
 - [ ] Download and benchmark Qwen2.5 3B Instruct on Mac Mini M4
+- [ ] Stand up minimal FastAPI /chat endpoint with baseline model
+- [ ] Configure Cloudflare Tunnel for external access
 
 ### Medium-term Goals (Next Month)
 

@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IntakeSummary",
+  "description": "Structured summary produced by the intake bot after a student conversation.",
+  "type": "object",
+  "required": [
+    "session_id",
+    "booking_ref",
+    "appointment_datetime",
+    "course",
+    "issue_category",
+    "issue_subcategory",
+    "issue_description",
+    "student_self_assessment",
+    "professor_prep_note",
+    "turn_count",
+    "created_at"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique identifier for this intake session."
+    },
+    "booking_ref": {
+      "type": "string",
+      "description": "Cal.com booking reference linking this session to the appointment."
+    },
+    "appointment_datetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled appointment time in ISO 8601 format."
+    },
+    "course": {
+      "type": "string",
+      "enum": ["SPA 212-T", "other_course", "non_course"],
+      "description": "Context for the meeting. 'SPA 212-T' for that course, 'other_course' for a different course, 'non_course' for colleague meetings or non-course-specific conversations."
+    },
+    "issue_category": {
+      "type": "string",
+      "enum": [
+        "grammar",
+        "vocabulary",
+        "composition",
+        "exam_prep",
+        "interview_prep",
+        "oral_presentation",
+        "literary_comprehension",
+        "cultural_content",
+        "assignment_instructions",
+        "general",
+        "other"
+      ],
+      "description": "Primary category of the student's issue."
+    },
+    "issue_subcategory": {
+      "type": ["string", "null"],
+      "description": "Specific topic within the category. For grammar: 'ser_estar', 'preterite_imperfect', 'subjunctive', 'commands', 'object_pronouns', 'gustar_verbs', 'conditional_si_clauses', etc. For composition: 'thesis', 'organization', 'grammar_in_writing', etc. Null if not applicable.",
+      "examples": [
+        "ser_estar",
+        "preterite_imperfect",
+        "subjunctive_triggers",
+        "commands_informal",
+        "object_pronouns_double",
+        "gustar_verbs",
+        "conditional_si_clauses",
+        "composition_organization",
+        "literary_analysis"
+      ]
+    },
+    "specific_artifact": {
+      "type": ["string", "null"],
+      "description": "The specific assignment, exam, chapter, or exercise the student references. E.g., 'Escritura I, paragraph 3', 'Exam 2 review, Chapter 4', 'ED 10: Los gustos'. Null if none mentioned."
+    },
+    "issue_description": {
+      "type": "string",
+      "description": "2-4 sentence summary of the student's issue in the bot's own words, synthesized from the conversation."
+    },
+    "student_self_assessment": {
+      "type": ["string", "null"],
+      "enum": ["lost", "struggling", "mostly_ok", "just_checking", null],
+      "description": "How confident the visitor feels about the topic. 'lost' = cannot articulate the problem; 'struggling' = knows the area but not the fix; 'mostly_ok' = has a specific question; 'just_checking' = wants confirmation. Null for non-course meetings."
+    },
+    "professor_prep_note": {
+      "type": "string",
+      "description": "1-3 sentence note suggesting what materials or approach the professor should prepare. E.g., 'Bring examples of si clauses with past subjunctive. Student confuses conditional in both clauses.'"
+    },
+    "turn_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Number of conversation turns in the intake session."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this summary was generated."
+    }
+  },
+  "additionalProperties": false
+}

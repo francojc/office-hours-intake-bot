@@ -1,7 +1,7 @@
 # Application Project Planning
 
 **Project:** Office Hours Intake Bot
-**Status:** Planning
+**Status:** Phase 0 Complete
 **Last Updated:** 2026-02-17
 
 ## Project Overview
@@ -62,12 +62,14 @@
 
 ## Timeline and Milestones
 
-### Phase 0: Scoping and Design (Week 1)
+### Phase 0: Scoping and Design (Week 1) -- COMPLETE
 
-- [ ] Lock integration point decision (post-booking confirmed)
-- [ ] Finalize output JSON schema
-- [ ] Define course taxonomy (topics, pain points, assignments)
-- [ ] Sketch dialogue flow (5-8 turn pattern)
+- [x] Lock integration point decision (post-booking confirmed)
+- [x] Finalize output JSON schema (docs/intake-schema.json)
+- [x] Define course taxonomy (rag-corpus/spa212/)
+- [x] Sketch dialogue flow (docs/dialogue-flow.md)
+- [x] Draft system prompt (docs/system-prompt.md)
+- [x] Add non-course meeting flow for colleagues/non-course visitors
 
 ### Phase 1: Infrastructure Setup (Weeks 1-2)
 

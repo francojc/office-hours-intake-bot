@@ -232,3 +232,7 @@ uv run pytest --cov=app
 | 2026-02-17 | uv for package management | Fast, lockfile-based, replaces pip/venv/poetry | pip+venv, poetry, conda |
 | 2026-02-17 | ChromaDB for vector store | Embedded, no separate process, persistent | LanceDB, Pinecone (cloud) |
 | 2026-02-17 | Vanilla HTML/JS for chat UI | No build tooling, simple to maintain | React, Vue |
+| 2026-02-17 | 4-level self-assessment scale | More descriptive than low/medium/high; maps to actionable prep | Numeric 1-5 scale, free-text |
+| 2026-02-17 | Conversation log stored separately from summary | Summary is the delivery artifact; logs kept locally for privacy | Embedding full transcript in summary JSON |
+| 2026-02-17 | Non-course flow for colleagues | 3-4 turn lightweight path; avoids forcing non-students through course taxonomy | Single flow for all visitors |
+| 2026-02-17 | Snake_case subcategory vocabulary | Consistent labels for fine-tuning and analysis; model picks from fixed list | Free-text subcategories |
