@@ -1,16 +1,16 @@
 # Application Project Progress
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 0 Complete — Ready for Phase 1
-**Last Updated:** 2026-02-17
+**Status:** Phase 1 In Progress — Infrastructure Mostly Complete
+**Last Updated:** 2026-02-18
 
 ## Current Status Overview
 
 ### Development Phase
 
-- **Current Phase:** Phase 0 complete; Phase 1 (Infrastructure Setup) next
-- **Phase Progress:** Phase 0: 100% complete
-- **Overall Project Progress:** ~15% complete
+- **Current Phase:** Phase 1 (Infrastructure Setup) — 3 of 4 items done
+- **Phase Progress:** Phase 1: ~80% complete (Tailscale Funnel config remaining)
+- **Overall Project Progress:** ~25% complete
 
 ### Recent Accomplishments
 
@@ -20,12 +20,16 @@
 - Course taxonomy created for SPA 212-T (rag-corpus/spa212/) - 2026-02-17
 - Dialogue flow designed with course and non-course paths (docs/dialogue-flow.md) - 2026-02-17
 - System prompt drafted (docs/system-prompt.md) - 2026-02-17
+- Python environment set up with uv (158 packages) - 2026-02-18
+- Qwen2.5 3B Instruct downloaded and converted to MLX bfloat16 - 2026-02-18
+- FastAPI skeleton with /health and /chat endpoints - 2026-02-18
+- Initial test suite (4 tests passing) - 2026-02-18
+- Switched from Cloudflare Tunnel to Tailscale Funnel - 2026-02-18
 
 ### Active Work
 
-- [ ] Set up Python environment with uv - target: Phase 1
-- [ ] Download and benchmark Qwen2.5 3B on Mac Mini M4 - target: Phase 1
-- [ ] Stand up baseline FastAPI endpoint - target: Phase 1
+- [ ] Configure Tailscale Funnel for external access - target: Phase 1
+- [ ] Benchmark model latency on M4 target hardware - target: Phase 1
 
 ## Milestone Tracking
 
@@ -34,6 +38,8 @@
 - [x] ~~Project concept and architecture documented~~ - 2026-02-17
 - [x] ~~Project scaffolding created~~ - 2026-02-17
 - [x] ~~Phase 0 complete (design decisions locked)~~ - 2026-02-17
+- [x] ~~Python environment and dependencies configured~~ - 2026-02-18
+- [x] ~~Base model downloaded and serving via FastAPI~~ - 2026-02-18
 
 ### Upcoming Milestones
 
@@ -50,11 +56,12 @@
 
 ### Build Health
 
-- **Last Successful Build:** N/A (no code yet)
+- **Last Successful Build:** 2026-02-18 (uv sync, all imports verified)
 
 ### Test Results
 
-- No tests yet
+- 4 tests passing (health, static files, chat reply, chat 503 fallback)
+- All tests use mocked model calls (no GPU needed for CI)
 
 ### Open Defects
 
@@ -72,11 +79,10 @@
 
 ### In Progress
 
-- None (Phase 1 not started)
+- [ ] Tailscale Funnel configuration - Phase 1
 
 ### Planned
 
-- [ ] FastAPI baseline endpoint - Phase 1
 - [ ] RAG indexing pipeline - Phase 2
 - [ ] Intake conversation engine - Phase 2-4
 - [ ] Chat widget UI - Phase 5
@@ -120,20 +126,21 @@
 
 ### Resolved Challenges
 
-- None yet
+- Hatchling build backend config required explicit `packages = ["app"]` in pyproject.toml
 
 ### Lessons Learned
 
-- None yet
+- MLX inference on M3 (~3.4 tok/s for 3B model) is much slower than M4 target; benchmark on target hardware before tuning model size
+- Lazy model loading in the chat endpoint lets the app start and serve /health even before the model is downloaded
 
 ## Next Steps
 
 ### Immediate Actions (Next 2 Weeks)
 
-- [ ] Set up Python environment with uv and core dependencies
-- [ ] Download and benchmark Qwen2.5 3B Instruct on Mac Mini M4
-- [ ] Stand up minimal FastAPI /chat endpoint with baseline model
 - [ ] Configure Tailscale Funnel for external access
+- [ ] Benchmark model latency on M4 Mac Mini (confirm <2s target)
+- [ ] Begin Phase 2: organize RAG corpus and build indexing pipeline
+- [ ] Implement RAG-augmented prompt construction in /chat endpoint
 
 ### Medium-term Goals (Next Month)
 

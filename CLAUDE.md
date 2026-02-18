@@ -99,3 +99,5 @@ FastAPI monolith with embedded LLM inference. Flow:
 - ChromaDB is embedded (no separate process needed)
 - Cal.com webhook support depends on plan tier; verify before building integration
 - Tailscale Funnel must be enabled on the tailnet; run `tailscale funnel 8000` to expose the dev server
+- Hatchling requires `[tool.hatch.build.targets.wheel] packages = ["app"]` in pyproject.toml since the package name doesn't match the source directory
+- Model loads lazily on first /chat request; /health works without the model present

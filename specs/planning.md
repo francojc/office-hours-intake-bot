@@ -1,8 +1,8 @@
 # Application Project Planning
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 0 Complete
-**Last Updated:** 2026-02-17
+**Status:** Phase 1 In Progress
+**Last Updated:** 2026-02-18
 
 ## Project Overview
 
@@ -71,12 +71,13 @@
 - [x] Draft system prompt (docs/system-prompt.md)
 - [x] Add non-course meeting flow for colleagues/non-course visitors
 
-### Phase 1: Infrastructure Setup (Weeks 1-2)
+### Phase 1: Infrastructure Setup (Weeks 1-2) -- IN PROGRESS
 
-- [ ] Set up Python environment with uv
-- [ ] Download and benchmark base model (Qwen2.5 3B Instruct)
-- [ ] Stand up minimal FastAPI endpoint with baseline model
+- [x] Set up Python environment with uv (158 packages, pyproject.toml)
+- [x] Download and benchmark base model (Qwen2.5 3B Instruct, bfloat16)
+- [x] Stand up minimal FastAPI endpoint with baseline model (/health, /chat)
 - [ ] Configure Tailscale Funnel for external access
+- [x] Initial test suite (4 tests passing)
 
 ### Phase 2: RAG Pipeline (Weeks 2-3)
 
