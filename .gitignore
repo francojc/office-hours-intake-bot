@@ -30,3 +30,4 @@ chroma_db/
 # Conversation logs (privacy)
 conversation_logs/
 .aider*
+.direnv/
