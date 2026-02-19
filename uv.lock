@@ -1255,6 +1255,20 @@ wheels = [
 ]
 
 [[package]]
+name = "llama-index-embeddings-huggingface"
+version = "0.6.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "huggingface-hub" },
+    { name = "llama-index-core" },
+    { name = "sentence-transformers" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a1/a0/77beca4ed28af68db6ab9c647b3fa75fae905d33ace96e91010cc9b96027/llama_index_embeddings_huggingface-0.6.1.tar.gz", hash = "sha256:3b21ffeda22f8221ed55778bb3daed71664ab07b341f1dd2f408963bd20355b9", size = 8694, upload-time = "2025-09-08T20:25:27.816Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/b0/4d327cb2f2e039606feb9345b4de975090b9659c4ee84b00443bb149a80d/llama_index_embeddings_huggingface-0.6.1-py3-none-any.whl", hash = "sha256:b63990cf71ee7a36c51f36657133fcf76130e9bf5dcf9eb5a73a5087106d6881", size = 8903, upload-time = "2025-09-08T20:25:27.038Z" },
+]
+
+[[package]]
 name = "llama-index-embeddings-openai"
 version = "0.5.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2028,6 +2042,7 @@ dependencies = [
     { name = "fastapi" },
     { name = "httpx" },
     { name = "llama-index" },
+    { name = "llama-index-embeddings-huggingface" },
     { name = "llama-index-vector-stores-chroma" },
     { name = "mlx-lm" },
     { name = "pydantic" },
@@ -2049,6 +2064,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115" },
     { name = "httpx", specifier = ">=0.28" },
     { name = "llama-index", specifier = ">=0.12" },
+    { name = "llama-index-embeddings-huggingface", specifier = ">=0.6.1" },
     { name = "llama-index-vector-stores-chroma", specifier = ">=0.4" },
     { name = "mlx-lm", specifier = ">=0.21" },
     { name = "pydantic", specifier = ">=2.10" },
