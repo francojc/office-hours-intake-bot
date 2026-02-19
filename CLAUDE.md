@@ -6,7 +6,10 @@ Runs locally on Mac Mini M4 with a fine-tuned LLM via MLX.
 ## Quick Reference
 
 ```bash
-# Install dependencies
+# Full environment setup (model, RAG index, deps)
+./scripts/setup-environment.sh
+
+# Install dependencies only
 uv sync
 
 # Run development server
@@ -49,6 +52,7 @@ office-hours-intake-bot/
 ├── chroma_db/             # ChromaDB persistent store (gitignored)
 ├── training-data/         # Fine-tuning JSONL files
 ├── static/                # Chat widget HTML/CSS/JS
+├── scripts/               # Environment setup and maintenance scripts
 ├── tests/                 # pytest test suite
 ├── specs/                 # Planning, progress, implementation docs
 ├── logs/                  # Weekly reviews and session logs
