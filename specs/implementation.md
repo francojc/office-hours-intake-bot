@@ -1,8 +1,8 @@
 # Application Implementation Details
 
 **Project:** Office Hours Intake Bot
-**Status:** Planning
-**Last Updated:** 2026-02-17
+**Status:** In Progress
+**Last Updated:** 2026-02-19
 
 ## Architecture
 
@@ -200,8 +200,8 @@ uv run pytest --cov=app
 
 ### Health Checks
 
-- **Endpoints:** GET /health returns model status and uptime
-- **Dependency Checks:** ChromaDB collection count, model loaded flag
+- **Endpoints:** GET /health returns model status, RAG index status
+- **Dependency Checks:** model_loaded flag, rag_index_loaded flag
 
 ## Security Considerations
 
@@ -237,3 +237,6 @@ uv run pytest --cov=app
 | 2026-02-17 | Non-course flow for colleagues | 3-4 turn lightweight path; avoids forcing non-students through course taxonomy | Single flow for all visitors |
 | 2026-02-17 | Snake_case subcategory vocabulary | Consistent labels for fine-tuning and analysis; model picks from fixed list | Free-text subcategories |
 | 2026-02-18 | Tailscale Funnel instead of Cloudflare Tunnel | Already in use on the tailnet; simpler (no extra daemon); stable HTTPS URL | Cloudflare Tunnel (extra process, more config) |
+| 2026-02-19 | all-MiniLM-L6-v2 for RAG embeddings | Small (80MB), fast, good enough for 4-doc corpus | all-mpnet-base-v2 (larger, marginal quality gain) |
+| 2026-02-19 | System prompt loaded from file at startup | Easy to iterate on prompt without code changes | Embedded as Python constant |
+| 2026-02-19 | Lifespan handler for RAG indexing | Replaces deprecated @app.on_event; indexes once at startup | Lazy indexing on first /chat request |

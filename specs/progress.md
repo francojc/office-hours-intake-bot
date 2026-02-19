@@ -1,16 +1,16 @@
 # Application Project Progress
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 1 In Progress — Infrastructure Mostly Complete
-**Last Updated:** 2026-02-18
+**Status:** Phase 2 In Progress — RAG Pipeline Operational
+**Last Updated:** 2026-02-19
 
 ## Current Status Overview
 
 ### Development Phase
 
-- **Current Phase:** Phase 1 (Infrastructure Setup) — 3 of 4 items done
-- **Phase Progress:** Phase 1: ~80% complete (Tailscale Funnel config remaining)
-- **Overall Project Progress:** ~25% complete
+- **Current Phase:** Phase 2 (RAG Pipeline) — core pipeline complete
+- **Phase Progress:** Phase 1: ~90% (Tailscale Funnel remaining); Phase 2: ~75% (manual quality testing remaining)
+- **Overall Project Progress:** ~35% complete
 
 ### Recent Accomplishments
 
@@ -25,11 +25,19 @@
 - FastAPI skeleton with /health and /chat endpoints - 2026-02-18
 - Initial test suite (4 tests passing) - 2026-02-18
 - Switched from Cloudflare Tunnel to Tailscale Funnel - 2026-02-18
+- RAG pipeline built: LlamaIndex + ChromaDB + all-MiniLM-L6-v2 embeddings - 2026-02-19
+- System prompt template loaded from docs/system-prompt.md with {{retrieved_context}} injection - 2026-02-19
+- RAG context wired into /chat endpoint (replaces hardcoded system message) - 2026-02-19
+- Startup lifespan handler indexes corpus automatically (4 docs) - 2026-02-19
+- /health endpoint now reports rag_index_loaded status - 2026-02-19
+- Test suite expanded to 9 tests (5 new RAG tests) - 2026-02-19
+- Added llama-index-embeddings-huggingface dependency - 2026-02-19
 
 ### Active Work
 
 - [ ] Configure Tailscale Funnel for external access - target: Phase 1
 - [ ] Benchmark model latency on M4 target hardware - target: Phase 1
+- [ ] Test RAG quality with 10-15 manual conversations - target: Phase 2
 
 ## Milestone Tracking
 
@@ -43,8 +51,8 @@
 
 ### Upcoming Milestones
 
-- [ ] Phase 1 complete (baseline model serving) - Target: end of Week 2
-- [ ] Phase 2 complete (RAG pipeline working) - Target: end of Week 3
+- [ ] Phase 1 complete (baseline model serving + Funnel) - Target: end of Week 2
+- [ ] Phase 2 complete (RAG pipeline + quality validation) - Target: end of Week 3
 - [ ] Phase 4 complete (fine-tuned model evaluated) - Target: end of Week 5
 - [ ] Phase 5 complete (Cal.com integration live) - Target: end of Week 6
 
@@ -56,11 +64,12 @@
 
 ### Build Health
 
-- **Last Successful Build:** 2026-02-18 (uv sync, all imports verified)
+- **Last Successful Build:** 2026-02-19 (uv sync, all imports verified)
 
 ### Test Results
 
-- 4 tests passing (health, static files, chat reply, chat 503 fallback)
+- 9 tests passing (4 original + 5 RAG pipeline tests)
+- RAG tests use in-memory ChromaDB with temporary fixtures
 - All tests use mocked model calls (no GPU needed for CI)
 
 ### Open Defects
@@ -76,14 +85,17 @@
 - [x] ~~Dialogue flow (course + non-course paths)~~ - 2026-02-17
 - [x] ~~System prompt template~~ - 2026-02-17
 - [x] ~~Office hours scope and referral resources~~ - 2026-02-17
+- [x] ~~RAG indexing pipeline (LlamaIndex + ChromaDB)~~ - 2026-02-19
+- [x] ~~RAG-augmented prompt construction in /chat~~ - 2026-02-19
+- [x] ~~System prompt template loading from file~~ - 2026-02-19
 
 ### In Progress
 
 - [ ] Tailscale Funnel configuration - Phase 1
+- [ ] RAG quality validation with manual test conversations - Phase 2
 
 ### Planned
 
-- [ ] RAG indexing pipeline - Phase 2
 - [ ] Intake conversation engine - Phase 2-4
 - [ ] Chat widget UI - Phase 5
 - [ ] Cal.com webhook integration - Phase 5
@@ -139,14 +151,14 @@
 
 - [ ] Configure Tailscale Funnel for external access
 - [ ] Benchmark model latency on M4 Mac Mini (confirm <2s target)
-- [ ] Begin Phase 2: organize RAG corpus and build indexing pipeline
-- [ ] Implement RAG-augmented prompt construction in /chat endpoint
+- [ ] Test RAG quality with 10-15 manual conversations
+- [ ] Begin Phase 3: define student persona matrix for synthetic data
 
 ### Medium-term Goals (Next Month)
 
-- [ ] RAG pipeline indexing course materials and returning relevant context
 - [ ] 10-15 manual test conversations establishing baseline quality
-- [ ] Synthetic training data generated and curated
+- [ ] Synthetic training data generated and curated (300-500 conversations)
+- [ ] LoRA fine-tuning with MLX-LM
 
 ### Decisions Needed
 

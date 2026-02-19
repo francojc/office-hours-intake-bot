@@ -1,8 +1,8 @@
 # Application Project Planning
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 1 In Progress
-**Last Updated:** 2026-02-18
+**Status:** Phase 2 In Progress
+**Last Updated:** 2026-02-19
 
 ## Project Overview
 
@@ -79,11 +79,11 @@
 - [ ] Configure Tailscale Funnel for external access
 - [x] Initial test suite (4 tests passing)
 
-### Phase 2: RAG Pipeline (Weeks 2-3)
+### Phase 2: RAG Pipeline (Weeks 2-3) -- IN PROGRESS
 
-- [ ] Organize course document corpus
-- [ ] Build LlamaIndex + ChromaDB indexing pipeline
-- [ ] Implement RAG-augmented prompt construction
+- [x] Organize course document corpus
+- [x] Build LlamaIndex + ChromaDB indexing pipeline
+- [x] Implement RAG-augmented prompt construction
 - [ ] Test RAG quality with 10-15 manual conversations
 
 ### Phase 3: Training Data Generation (Weeks 3-4)
