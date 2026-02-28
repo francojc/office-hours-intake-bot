@@ -1,16 +1,16 @@
 # Application Project Progress
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 2 In Progress — RAG Pipeline Operational
-**Last Updated:** 2026-02-19
+**Status:** Phase 3 In Progress — Training Data Generation
+**Last Updated:** 2026-02-28
 
 ## Current Status Overview
 
 ### Development Phase
 
-- **Current Phase:** Phase 2 (RAG Pipeline) — core pipeline complete
-- **Phase Progress:** Phase 1: ~90% (Tailscale Funnel remaining); Phase 2: ~75% (manual quality testing remaining)
-- **Overall Project Progress:** ~35% complete
+- **Current Phase:** Phase 3 (Training Data) — persona matrix and generator complete
+- **Phase Progress:** Phase 1: ~90% (Tailscale Funnel remaining); Phase 2: ~75% (manual quality testing remaining); Phase 3: ~50% (initial data generated, curation pending)
+- **Overall Project Progress:** ~40% complete
 
 ### Recent Accomplishments
 
@@ -32,12 +32,21 @@
 - /health endpoint now reports rag_index_loaded status - 2026-02-19
 - Test suite expanded to 9 tests (5 new RAG tests) - 2026-02-19
 - Added llama-index-embeddings-huggingface dependency - 2026-02-19
+- IntakeSummary Pydantic model created (app/summary.py) with full enum constraints - 2026-02-28
+- Added pytest-cov to dev dependencies; coverage baseline measured at 90% - 2026-02-28
+- Student persona matrix defined (32 personas covering all dialogue paths) - 2026-02-28
+- Synthetic training data generator built (scripts/generate_training_data.py) - 2026-02-28
+- Initial training data generated: 128 train, 16 val, 16 test conversations - 2026-02-28
+- Summary test suite added (9 tests for validation, enums, serialization) - 2026-02-28
+- Test suite expanded to 18 tests total (9 app/RAG + 9 summary) - 2026-02-28
 
 ### Active Work
 
 - [ ] Configure Tailscale Funnel for external access - target: Phase 1
 - [ ] Benchmark model latency on M4 target hardware - target: Phase 1
 - [ ] Test RAG quality with 10-15 manual conversations - target: Phase 2
+- [ ] Curate and expand synthetic training data to 300-500 conversations - target: Phase 3
+- [ ] Review generated conversations for quality and realism - target: Phase 3
 
 ## Milestone Tracking
 
@@ -48,6 +57,9 @@
 - [x] ~~Phase 0 complete (design decisions locked)~~ - 2026-02-17
 - [x] ~~Python environment and dependencies configured~~ - 2026-02-18
 - [x] ~~Base model downloaded and serving via FastAPI~~ - 2026-02-18
+- [x] ~~IntakeSummary Pydantic model implemented~~ - 2026-02-28
+- [x] ~~Student persona matrix defined (32 personas)~~ - 2026-02-28
+- [x] ~~Synthetic training data generator built~~ - 2026-02-28
 
 ### Upcoming Milestones
 
@@ -64,13 +76,14 @@
 
 ### Build Health
 
-- **Last Successful Build:** 2026-02-19 (uv sync, all imports verified)
+- **Last Successful Build:** 2026-02-28 (uv sync, all imports verified)
 
 ### Test Results
 
-- 9 tests passing (4 original + 5 RAG pipeline tests)
+- 18 tests passing (4 app/health + 5 RAG + 9 summary)
 - RAG tests use in-memory ChromaDB with temporary fixtures
 - All tests use mocked model calls (no GPU needed for CI)
+- **Coverage:** 90% overall (app/summary.py 100%, app/config.py 100%, app/rag.py 89%, app/chat.py 83%, app/main.py 85%)
 
 ### Open Defects
 
@@ -88,11 +101,16 @@
 - [x] ~~RAG indexing pipeline (LlamaIndex + ChromaDB)~~ - 2026-02-19
 - [x] ~~RAG-augmented prompt construction in /chat~~ - 2026-02-19
 - [x] ~~System prompt template loading from file~~ - 2026-02-19
+- [x] ~~IntakeSummary Pydantic model (app/summary.py)~~ - 2026-02-28
+- [x] ~~Student persona matrix (32 personas)~~ - 2026-02-28
+- [x] ~~Synthetic training data generator~~ - 2026-02-28
+- [x] ~~Initial training data (160 conversations: 128/16/16 split)~~ - 2026-02-28
 
 ### In Progress
 
 - [ ] Tailscale Funnel configuration - Phase 1
 - [ ] RAG quality validation with manual test conversations - Phase 2
+- [ ] Training data curation and expansion to 300-500 conversations - Phase 3
 
 ### Planned
 
@@ -152,12 +170,14 @@
 - [ ] Configure Tailscale Funnel for external access
 - [ ] Benchmark model latency on M4 Mac Mini (confirm <2s target)
 - [ ] Test RAG quality with 10-15 manual conversations
-- [ ] Begin Phase 3: define student persona matrix for synthetic data
+- [x] ~~Begin Phase 3: define student persona matrix for synthetic data~~
+- [ ] Curate generated conversations (review for quality and realism)
+- [ ] Expand training data to 300-500 conversations (increase --variations)
 
 ### Medium-term Goals (Next Month)
 
 - [ ] 10-15 manual test conversations establishing baseline quality
-- [ ] Synthetic training data generated and curated (300-500 conversations)
+- [ ] Training data curated and expanded to 300-500 conversations
 - [ ] LoRA fine-tuning with MLX-LM
 
 ### Decisions Needed

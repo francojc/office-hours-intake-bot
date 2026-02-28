@@ -13,9 +13,7 @@ def client():
             "MockTokenizer",
             (),
             {
-                "apply_chat_template": (
-                    lambda self, msgs, **kw: "mock prompt"
-                ),
+                "apply_chat_template": (lambda self, msgs, **kw: "mock prompt"),
             },
         )()
         mock_get_model.return_value = (mock_model, mock_tokenizer)

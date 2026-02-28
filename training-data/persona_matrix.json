@@ -1,0 +1,325 @@
+{
+  "description": "Student persona matrix for synthetic training data generation. Each persona defines a distinct visitor profile that maps to a unique conversation path through the intake dialogue flow.",
+  "personas": [
+    {
+      "id": "spa212-grammar-ser_estar-lost",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "ser_estar",
+      "specific_artifact": "ED 8",
+      "self_assessment": "lost",
+      "personality": "shy, gives terse answers",
+      "notes": "Cannot articulate the difference; uses ser for everything."
+    },
+    {
+      "id": "spa212-grammar-ser_estar-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "ser_estar",
+      "specific_artifact": null,
+      "self_assessment": "struggling",
+      "personality": "engaged but confused",
+      "notes": "Knows the rule exists but applies it inconsistently with locations."
+    },
+    {
+      "id": "spa212-grammar-preterite_imperfect-lost",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "preterite_imperfect",
+      "specific_artifact": "Chapter 3 practice",
+      "self_assessment": "lost",
+      "personality": "anxious, overshares context",
+      "notes": "Mixes up completed vs. ongoing actions in narratives."
+    },
+    {
+      "id": "spa212-grammar-preterite_imperfect-mostly_ok",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "preterite_imperfect",
+      "specific_artifact": "Escritura I",
+      "self_assessment": "mostly_ok",
+      "personality": "confident, has a specific question",
+      "notes": "Understands the basics but unsure about time markers like 'mientras'."
+    },
+    {
+      "id": "spa212-grammar-subjunctive_triggers-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "subjunctive_triggers",
+      "specific_artifact": "ED 10",
+      "self_assessment": "struggling",
+      "personality": "cooperative, moderate detail",
+      "notes": "Forgets subjunctive after doubt expressions like 'dudo que'."
+    },
+    {
+      "id": "spa212-grammar-subjunctive_formation-lost",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "subjunctive_formation",
+      "specific_artifact": null,
+      "self_assessment": "lost",
+      "personality": "frustrated, wants concrete steps",
+      "notes": "Cannot form subjunctive conjugations for irregular verbs."
+    },
+    {
+      "id": "spa212-grammar-commands_informal-just_checking",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "commands_informal",
+      "specific_artifact": "Chapter 2 homework",
+      "self_assessment": "just_checking",
+      "personality": "prepared, wants confirmation",
+      "notes": "Thinks they have it right but wants to verify negative tu commands."
+    },
+    {
+      "id": "spa212-grammar-object_pronouns-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "object_pronouns",
+      "specific_artifact": null,
+      "self_assessment": "struggling",
+      "personality": "quiet, needs prompting",
+      "notes": "Confuses direct and indirect object pronouns."
+    },
+    {
+      "id": "spa212-grammar-object_pronouns_double-lost",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "object_pronouns_double",
+      "specific_artifact": "ED 12",
+      "self_assessment": "lost",
+      "personality": "overwhelmed, mentions multiple issues",
+      "notes": "Cannot figure out order of double object pronouns. Also confused about le->se change."
+    },
+    {
+      "id": "spa212-grammar-gustar_verbs-mostly_ok",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "gustar_verbs",
+      "specific_artifact": "ED 10: Los gustos",
+      "self_assessment": "mostly_ok",
+      "personality": "cheerful, gives good detail",
+      "notes": "Gets gustar but struggles with similar verbs like encantar and molestar."
+    },
+    {
+      "id": "spa212-grammar-conditional-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "conditional",
+      "specific_artifact": "Chapter 5 exercises",
+      "self_assessment": "struggling",
+      "personality": "earnest, tries hard",
+      "notes": "Mixes conditional with future tense forms."
+    },
+    {
+      "id": "spa212-grammar-si_clauses-lost",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "si_clauses",
+      "specific_artifact": null,
+      "self_assessment": "lost",
+      "personality": "panicked about upcoming exam",
+      "notes": "Uses conditional in both clauses. Does not understand imperfect subjunctive in si clauses."
+    },
+    {
+      "id": "spa212-vocabulary-general-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "vocabulary",
+      "issue_subcategory": null,
+      "specific_artifact": "Chapter 4 vocab list",
+      "self_assessment": "struggling",
+      "personality": "diligent, studies a lot",
+      "notes": "Studies vocab lists but cannot recall words in context."
+    },
+    {
+      "id": "spa212-composition-composition_organization-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "composition",
+      "issue_subcategory": "composition_organization",
+      "specific_artifact": "Escritura I",
+      "self_assessment": "struggling",
+      "personality": "wordy, provides lots of background",
+      "notes": "Has ideas but cannot structure paragraphs with clear thesis."
+    },
+    {
+      "id": "spa212-composition-composition_grammar-mostly_ok",
+      "course": "SPA 212-T",
+      "issue_category": "composition",
+      "issue_subcategory": "composition_grammar",
+      "specific_artifact": "Escritura II draft",
+      "self_assessment": "mostly_ok",
+      "personality": "detail-oriented writer",
+      "notes": "Draft is done, wants guidance on grammar errors before submitting."
+    },
+    {
+      "id": "spa212-composition-composition_thesis-lost",
+      "course": "SPA 212-T",
+      "issue_category": "composition",
+      "issue_subcategory": "composition_thesis",
+      "specific_artifact": "Escritura I",
+      "self_assessment": "lost",
+      "personality": "uncertain, asks many clarifying questions",
+      "notes": "Does not understand what the prompt is asking for."
+    },
+    {
+      "id": "spa212-exam_prep-exam1-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "exam_prep",
+      "issue_subcategory": null,
+      "specific_artifact": "Exam 1: Chapters 1-2",
+      "self_assessment": "struggling",
+      "personality": "nervous but motivated",
+      "notes": "Feels okay on vocab but shaky on narration in the past tense."
+    },
+    {
+      "id": "spa212-exam_prep-exam2-lost",
+      "course": "SPA 212-T",
+      "issue_category": "exam_prep",
+      "issue_subcategory": null,
+      "specific_artifact": "Exam 2: Chapters 3-4",
+      "self_assessment": "lost",
+      "personality": "overwhelmed, behind in class",
+      "notes": "Missed several classes. Does not know where to start reviewing subjunctive and pronouns."
+    },
+    {
+      "id": "spa212-exam_prep-final-just_checking",
+      "course": "SPA 212-T",
+      "issue_category": "exam_prep",
+      "issue_subcategory": null,
+      "specific_artifact": "Exam 3/Final: Chapters 5-6",
+      "self_assessment": "just_checking",
+      "personality": "strong student, wants edge",
+      "notes": "Solid on most material. Wants to confirm si clause usage for the final."
+    },
+    {
+      "id": "spa212-interview_prep-general-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "interview_prep",
+      "issue_subcategory": null,
+      "specific_artifact": null,
+      "self_assessment": "struggling",
+      "personality": "anxious about speaking",
+      "notes": "Can write okay but freezes when speaking. Needs help with oral interview format."
+    },
+    {
+      "id": "spa212-literary_comprehension-literary_analysis-struggling",
+      "course": "SPA 212-T",
+      "issue_category": "literary_comprehension",
+      "issue_subcategory": "literary_analysis",
+      "specific_artifact": null,
+      "self_assessment": "struggling",
+      "personality": "engaged reader, unclear on analysis method",
+      "notes": "Enjoys the readings but does not know how to write about literary themes."
+    },
+    {
+      "id": "spa212-cultural_content-cultural_context-mostly_ok",
+      "course": "SPA 212-T",
+      "issue_category": "cultural_content",
+      "issue_subcategory": "cultural_context",
+      "specific_artifact": "Chapter 3 cultural reading",
+      "self_assessment": "mostly_ok",
+      "personality": "curious, asks follow-up questions",
+      "notes": "Wants more background on the cultural context for a class discussion."
+    },
+    {
+      "id": "spa212-assignment_instructions-general-lost",
+      "course": "SPA 212-T",
+      "issue_category": "assignment_instructions",
+      "issue_subcategory": null,
+      "specific_artifact": "Escritura II",
+      "self_assessment": "lost",
+      "personality": "confused, re-reads prompt multiple times",
+      "notes": "Cannot parse the assignment instructions. Needs clarification on requirements."
+    },
+    {
+      "id": "spa212-grammar-unsure-needs_discovery",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": null,
+      "specific_artifact": null,
+      "self_assessment": "lost",
+      "personality": "vague, says 'I just don't get it'",
+      "notes": "Triggers the guided discovery flow (Turn 3a). Bot should help narrow down the topic."
+    },
+    {
+      "id": "other_course-general-struggling",
+      "course": "other_course",
+      "issue_category": "grammar",
+      "issue_subcategory": null,
+      "specific_artifact": "Midterm essay",
+      "self_assessment": "struggling",
+      "personality": "apologetic, unsure if this is the right place",
+      "notes": "Taking a different Spanish course. Needs help but taxonomy does not apply."
+    },
+    {
+      "id": "non_course-colleague-meeting",
+      "course": "non_course",
+      "issue_category": "general",
+      "issue_subcategory": null,
+      "specific_artifact": null,
+      "self_assessment": null,
+      "personality": "professional, concise",
+      "notes": "Colleague meeting about a research collaboration. Short non-course flow."
+    },
+    {
+      "id": "non_course-advisee-checkin",
+      "course": "non_course",
+      "issue_category": "general",
+      "issue_subcategory": null,
+      "specific_artifact": null,
+      "self_assessment": null,
+      "personality": "friendly, brief",
+      "notes": "Advisee wants to discuss course selection for next semester."
+    },
+    {
+      "id": "spa212-distress-edge_case",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "ser_estar",
+      "specific_artifact": null,
+      "self_assessment": "lost",
+      "personality": "stressed, mentions personal difficulties",
+      "notes": "Edge case: student expresses emotional distress during intake. Bot should acknowledge, provide counseling center info, and note concern in prep note."
+    },
+    {
+      "id": "spa212-offtopic-edge_case",
+      "course": "SPA 212-T",
+      "issue_category": "other",
+      "issue_subcategory": null,
+      "specific_artifact": null,
+      "self_assessment": null,
+      "personality": "rambling, goes off-topic",
+      "notes": "Edge case: student goes off-topic. Bot should redirect once, then close gracefully."
+    },
+    {
+      "id": "spa212-terse-edge_case",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "preterite_imperfect",
+      "specific_artifact": null,
+      "self_assessment": "struggling",
+      "personality": "one-word answers only",
+      "notes": "Edge case: student gives terse responses. Bot should switch to multiple-choice options."
+    },
+    {
+      "id": "spa212-verbose-edge_case",
+      "course": "SPA 212-T",
+      "issue_category": "composition",
+      "issue_subcategory": "composition_organization",
+      "specific_artifact": "Escritura I",
+      "self_assessment": "struggling",
+      "personality": "dumps entire problem in one message",
+      "notes": "Edge case: student provides all info in turn 1. Bot should extract, confirm, and skip ahead."
+    },
+    {
+      "id": "spa212-multiple_issues-edge_case",
+      "course": "SPA 212-T",
+      "issue_category": "grammar",
+      "issue_subcategory": "subjunctive_triggers",
+      "specific_artifact": "Exam 2: Chapters 3-4",
+      "self_assessment": "struggling",
+      "personality": "brings up three different topics",
+      "notes": "Edge case: student has multiple issues. Bot should focus on primary and note secondary in prep note."
+    }
+  ]
+}

@@ -30,8 +30,7 @@ def _load_system_prompt() -> str:
                 SYSTEM_PROMPT_PATH,
             )
             _system_prompt_template = (
-                "You are a helpful assistant."
-                "\n\n{{retrieved_context}}"
+                "You are a helpful assistant.\n\n{{retrieved_context}}"
             )
         else:
             raw = SYSTEM_PROMPT_PATH.read_text()

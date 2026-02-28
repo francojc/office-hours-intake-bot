@@ -3,9 +3,7 @@ from unittest.mock import patch
 from app.rag import build_index, retrieve_context
 
 
-def test_build_index_creates_collection(
-    tmp_rag_corpus, tmp_chroma_path
-):
+def test_build_index_creates_collection(tmp_rag_corpus, tmp_chroma_path):
     """build_index loads docs and creates a non-empty collection."""
     with (
         patch("app.rag.settings") as mock_settings,
