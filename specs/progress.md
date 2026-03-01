@@ -9,8 +9,8 @@
 ### Development Phase
 
 - **Current Phase:** Phase 3 (Training Data) — persona matrix and generator complete
-- **Phase Progress:** Phase 1: ~90% (Tailscale Funnel remaining); Phase 2: ~75% (manual quality testing remaining); Phase 3: ~50% (initial data generated, curation pending)
-- **Overall Project Progress:** ~40% complete
+- **Phase Progress:** Phase 1: COMPLETE; Phase 2: ~75% (manual quality testing remaining); Phase 3: ~50% (initial data generated, curation pending)
+- **Overall Project Progress:** ~45% complete
 
 ### Recent Accomplishments
 
@@ -39,11 +39,14 @@
 - Initial training data generated: 128 train, 16 val, 16 test conversations - 2026-02-28
 - Summary test suite added (9 tests for validation, enums, serialization) - 2026-02-28
 - Test suite expanded to 18 tests total (9 app/RAG + 9 summary) - 2026-02-28
+- Tailscale Funnel configured on HTTPS port 8443 → localhost:8000 - 2026-02-28
+- M4 latency benchmarked: cold start ~10s, warm avg ~8.8s (6.8-12.3s range) - 2026-02-28
+- Phase 1 complete - 2026-02-28
 
 ### Active Work
 
-- [ ] Configure Tailscale Funnel for external access - target: Phase 1
-- [ ] Benchmark model latency on M4 target hardware - target: Phase 1
+- [x] ~~Configure Tailscale Funnel for external access~~ - Phase 1, done 2026-02-28
+- [x] ~~Benchmark model latency on M4 target hardware~~ - Phase 1, done 2026-02-28
 - [ ] Test RAG quality with 10-15 manual conversations - target: Phase 2
 - [ ] Curate and expand synthetic training data to 300-500 conversations - target: Phase 3
 - [ ] Review generated conversations for quality and realism - target: Phase 3
@@ -60,10 +63,12 @@
 - [x] ~~IntakeSummary Pydantic model implemented~~ - 2026-02-28
 - [x] ~~Student persona matrix defined (32 personas)~~ - 2026-02-28
 - [x] ~~Synthetic training data generator built~~ - 2026-02-28
+- [x] ~~Tailscale Funnel configured (HTTPS :8443)~~ - 2026-02-28
+- [x] ~~M4 latency benchmarked~~ - 2026-02-28
 
 ### Upcoming Milestones
 
-- [ ] Phase 1 complete (baseline model serving + Funnel) - Target: end of Week 2
+- [x] ~~Phase 1 complete (baseline model serving + Funnel)~~ - 2026-02-28
 - [ ] Phase 2 complete (RAG pipeline + quality validation) - Target: end of Week 3
 - [ ] Phase 4 complete (fine-tuned model evaluated) - Target: end of Week 5
 - [ ] Phase 5 complete (Cal.com integration live) - Target: end of Week 6
@@ -105,10 +110,10 @@
 - [x] ~~Student persona matrix (32 personas)~~ - 2026-02-28
 - [x] ~~Synthetic training data generator~~ - 2026-02-28
 - [x] ~~Initial training data (160 conversations: 128/16/16 split)~~ - 2026-02-28
+- [x] ~~Tailscale Funnel (HTTPS :8443 → localhost:8000)~~ - 2026-02-28
 
 ### In Progress
 
-- [ ] Tailscale Funnel configuration - Phase 1
 - [ ] RAG quality validation with manual test conversations - Phase 2
 - [ ] Training data curation and expansion to 300-500 conversations - Phase 3
 
@@ -162,17 +167,20 @@
 
 - MLX inference on M3 (~3.4 tok/s for 3B model) is much slower than M4 target; benchmark on target hardware before tuning model size
 - Lazy model loading in the chat endpoint lets the app start and serve /health even before the model is downloaded
+- M4 latency benchmark (Qwen2.5 3B, bfloat16): cold start ~10s, warm avg ~8.8s (range 6.8-12.3s). The <2s target is not achievable with the current ~5K-char system prompt (~1,258 tokens prefill) plus up to 256 generation tokens. Reducing system prompt length or max_tokens would improve latency. Consider whether 5-8s is acceptable for a non-realtime intake chat.
+- Tailscale Funnel adds negligible latency (~0.1s overhead vs localhost)
 
 ## Next Steps
 
 ### Immediate Actions (Next 2 Weeks)
 
-- [ ] Configure Tailscale Funnel for external access
-- [ ] Benchmark model latency on M4 Mac Mini (confirm <2s target)
+- [x] ~~Configure Tailscale Funnel for external access~~ - 2026-02-28
+- [x] ~~Benchmark model latency on M4 Mac Mini~~ - 2026-02-28 (avg 8.8s; <2s target not achievable with current prompt size)
 - [ ] Test RAG quality with 10-15 manual conversations
 - [x] ~~Begin Phase 3: define student persona matrix for synthetic data~~
 - [ ] Curate generated conversations (review for quality and realism)
 - [ ] Expand training data to 300-500 conversations (increase --variations)
+- [ ] Decide on acceptable latency threshold (current ~8s vs original <2s target)
 
 ### Medium-term Goals (Next Month)
 

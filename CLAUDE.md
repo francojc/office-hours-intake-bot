@@ -28,8 +28,8 @@ uv run mlx_lm.convert --hf-path Qwen/Qwen2.5-3B-Instruct --mlx-path ./models/qwe
 # Fine-tune with LoRA
 uv run mlx_lm.lora --model ./models/qwen2.5-3b --train --data ./training-data/ --adapter-path ./adapters/intake-bot-v1
 
-# Expose via Tailscale Funnel
-tailscale funnel 8000
+# Expose via Tailscale Funnel (HTTPS :8443 → localhost:8000)
+tailscale funnel --bg --https 8443 8000
 ```
 
 ## Project Structure
@@ -102,6 +102,7 @@ FastAPI monolith with embedded LLM inference. Flow:
 - MLX-LM requires Apple Silicon; will not work on Intel Macs
 - ChromaDB is embedded (no separate process needed)
 - Cal.com webhook support depends on plan tier; verify before building integration
-- Tailscale Funnel must be enabled on the tailnet; run `tailscale funnel 8000` to expose the dev server
+- Tailscale Funnel serves on HTTPS :8443 (port 443 is used by Ollama); run `tailscale funnel --bg --https 8443 8000` to expose the dev server
+- Public URL: https://mac-minicore.gerbil-matrix.ts.net:8443/
 - Hatchling requires `[tool.hatch.build.targets.wheel] packages = ["app"]` in pyproject.toml since the package name doesn't match the source directory
 - Model loads lazily on first /chat request; /health works without the model present
