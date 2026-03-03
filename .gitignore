@@ -31,3 +31,6 @@ chroma_db/
 conversation_logs/
 .aider*
 .direnv/
+
+# Claude Code local settings (machine-specific hooks)
+.claude/settings.local.json

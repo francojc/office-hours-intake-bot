@@ -97,6 +97,21 @@ FastAPI monolith with embedded LLM inference. Flow:
 - Student privacy: local-only storage, consent disclosure required
 - Chat widget must be mobile-friendly
 
+## Hooks (Mac Mini M4 only)
+
+`.claude/settings.local.json` (gitignored) auto-enables and disables Tailscale
+Funnel at session open/close via `SessionStart` and `SessionEnd` hooks:
+
+- `scripts/funnel-on.sh` — enables Funnel (HTTPS :8443) at startup/resume
+- `scripts/funnel-off.sh` — disables Funnel at logout/exit (not on /clear)
+
+Both scripts are idempotent. They use `/usr/local/bin/tailscale` (macOS app
+CLI v1.94.2) to avoid the Nix CLI version-mismatch warning.
+
+On a new machine: create `~/.local/bin/funnel-on.sh` and `funnel-off.sh` as
+thin wrappers (exec the scripts/ versions) and recreate settings.local.json
+with the hook config from CLAUDE.md or a teammate's copy.
+
 ## Known Gotchas
 
 - MLX-LM requires Apple Silicon; will not work on Intel Macs
