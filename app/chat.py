@@ -2,8 +2,8 @@ import logging
 import re
 from pathlib import Path
 
+import httpx
 from fastapi import APIRouter, HTTPException
-from mlx_lm import generate, load
 from pydantic import BaseModel
 
 from app.config import settings
@@ -13,8 +13,6 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-_model = None
-_tokenizer = None
 _system_prompt_template: str | None = None
 
 SYSTEM_PROMPT_PATH = Path("docs/system-prompt.md")
@@ -46,20 +44,6 @@ def _load_system_prompt() -> str:
     return _system_prompt_template
 
 
-def get_model():
-    global _model, _tokenizer
-    if _model is None:
-        if not settings.model_path.exists():
-            raise RuntimeError(
-                f"Model not found at {settings.model_path}. "
-                "Run: uv run mlx_lm.convert --hf-path "
-                "Qwen/Qwen2.5-3B-Instruct "
-                f"--mlx-path {settings.model_path}"
-            )
-        _model, _tokenizer = load(str(settings.model_path))
-    return _model, _tokenizer
-
-
 class ChatRequest(BaseModel):
     message: str
 
@@ -70,11 +54,6 @@ class ChatResponse(BaseModel):
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    try:
-        model, tokenizer = get_model()
-    except RuntimeError as e:
-        raise HTTPException(status_code=503, detail=str(e))
-
     context = retrieve_context(request.message)
     system_prompt = _load_system_prompt().replace(
         "{{retrieved_context}}", context
@@ -84,13 +63,36 @@ async def chat(request: ChatRequest):
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": request.message},
     ]
-    prompt = tokenizer.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True
-    )
-    reply = generate(
-        model,
-        tokenizer,
-        prompt=prompt,
-        max_tokens=256,
-    )
+
+    try:
+        async with httpx.AsyncClient(
+            base_url=settings.ollama_base_url,
+            timeout=120.0,
+        ) as client:
+            response = await client.post(
+                "/api/chat",
+                json={
+                    "model": settings.ollama_model,
+                    "messages": messages,
+                    "stream": False,
+                    "options": {"num_predict": 256},
+                },
+            )
+            response.raise_for_status()
+    except httpx.ConnectError:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                f"Cannot connect to Ollama at "
+                f"{settings.ollama_base_url}"
+            ),
+        )
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Ollama returned {e.response.status_code}",
+        )
+
+    data = response.json()
+    reply = data.get("message", {}).get("content", "")
     return ChatResponse(reply=reply)

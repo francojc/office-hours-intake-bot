@@ -1,7 +1,7 @@
 # Office Hours Intake Bot
 
 AI-powered student intake chatbot for Cal.com office hours appointments.
-Runs locally on Mac Mini M4 with a fine-tuned LLM via MLX.
+Runs locally on Mac Mini M4 with Gemma 4 31B via Ollama.
 
 ## Quick Reference
 
@@ -22,11 +22,8 @@ uv run pytest
 uv run ruff check app/ tests/
 uv run ruff format app/ tests/
 
-# Download base model
-uv run mlx_lm.convert --hf-path Qwen/Qwen2.5-3B-Instruct --mlx-path ./models/qwen2.5-3b
-
-# Fine-tune with LoRA
-uv run mlx_lm.lora --model ./models/qwen2.5-3b --train --data ./training-data/ --adapter-path ./adapters/intake-bot-v1
+# Pull the LLM model
+ollama pull gemma4:31b
 
 # Expose via Tailscale Funnel (HTTPS :8443 → localhost:8000)
 tailscale funnel --bg --https 8443 8000
@@ -38,19 +35,17 @@ tailscale funnel --bg --https 8443 8000
 office-hours-intake-bot/
 ├── app/                   # FastAPI application source
 │   ├── main.py            # Entry point and route mounting
-│   ├── chat.py            # Multi-turn intake conversation engine
+│   ├── chat.py            # Ollama-backed conversation engine
 │   ├── rag.py             # LlamaIndex + ChromaDB RAG pipeline
 │   ├── summary.py         # Pydantic models for intake summary schema
 │   ├── delivery.py        # Email and Cal.com API summary delivery
 │   ├── webhooks.py        # Cal.com webhook handlers
 │   └── config.py          # Settings and environment variables
-├── models/                # MLX-format LLM models (gitignored)
-├── adapters/              # LoRA adapter checkpoints (gitignored)
 ├── rag-corpus/            # Course materials for RAG indexing
 │   ├── spa212/            # SPA 212-T syllabus, assignments, topics
 │   └── general/           # Office hours scope, referral resources
 ├── chroma_db/             # ChromaDB persistent store (gitignored)
-├── training-data/         # Fine-tuning JSONL files
+├── training-data/         # Fine-tuning JSONL files (deferred)
 ├── static/                # Chat widget HTML/CSS/JS
 ├── scripts/               # Environment setup and maintenance scripts
 ├── tests/                 # pytest test suite
@@ -64,7 +59,7 @@ office-hours-intake-bot/
 
 - **Language:** Python 3.11+
 - **Framework:** FastAPI + Uvicorn
-- **LLM:** Qwen2.5 3B Instruct via MLX-LM (Apple Silicon native)
+- **LLM:** Gemma 4 31B via Ollama (http://mac-minicore.gerbil-matrix.ts.net:11434)
 - **RAG:** LlamaIndex + ChromaDB + sentence-transformers
 - **Package Manager:** uv
 - **Frontend:** Vanilla HTML/JS (no build step)
@@ -72,7 +67,7 @@ office-hours-intake-bot/
 
 ## Architecture
 
-FastAPI monolith with embedded LLM inference. Flow:
+FastAPI monolith calling Ollama for LLM inference. Flow:
 
 1. Cal.com sends BOOKING_CREATED webhook
 2. Server creates intake session, emails chat link to student
@@ -92,7 +87,7 @@ FastAPI monolith with embedded LLM inference. Flow:
 ## Key Constraints
 
 - All inference runs locally on Mac Mini M4 (no cloud LLM calls)
-- Target latency: <2s per conversation turn
+- Ollama serves Gemma 4 31B (4-bit quantization, ~20GB model)
 - Conversations limited to 10 turns max (hard cutoff)
 - Student privacy: local-only storage, consent disclosure required
 - Chat widget must be mobile-friendly
@@ -114,10 +109,10 @@ with the hook config from CLAUDE.md or a teammate's copy.
 
 ## Known Gotchas
 
-- MLX-LM requires Apple Silicon; will not work on Intel Macs
+- Ollama must be running before starting the app; /health reports "degraded" if unreachable
+- Gemma 4 31B at 4-bit uses ~20GB RAM; on a 32GB workstation with other models loaded, Ollama will evict idle models to make room
 - ChromaDB is embedded (no separate process needed)
 - Cal.com webhook support depends on plan tier; verify before building integration
 - Tailscale Funnel serves on HTTPS :8443 (port 443 is used by Ollama); run `tailscale funnel --bg --https 8443 8000` to expose the dev server
 - Public URL: https://mac-minicore.gerbil-matrix.ts.net:8443/
 - Hatchling requires `[tool.hatch.build.targets.wheel] packages = ["app"]` in pyproject.toml since the package name doesn't match the source directory
-- Model loads lazily on first /chat request; /health works without the model present

@@ -8,7 +8,6 @@ dependencies = [
     "uvicorn[standard]>=0.34",
     "pydantic>=2.10",
     "pydantic-settings>=2.7",
-    "mlx-lm>=0.21",
     "llama-index>=0.12",
     "llama-index-vector-stores-chroma>=0.4",
     "chromadb>=0.6",

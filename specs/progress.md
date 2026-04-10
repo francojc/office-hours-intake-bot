@@ -1,16 +1,16 @@
 # Application Project Progress
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 3 In Progress — Training Data Generation
-**Last Updated:** 2026-02-28
+**Status:** Phase 2 In Progress — Model switched to Ollama/Gemma 4
+**Last Updated:** 2026-04-09
 
 ## Current Status Overview
 
 ### Development Phase
 
-- **Current Phase:** Phase 3 (Training Data) — persona matrix and generator complete
-- **Phase Progress:** Phase 1: COMPLETE; Phase 2: ~75% (manual quality testing remaining); Phase 3: ~50% (initial data generated, curation pending)
-- **Overall Project Progress:** ~45% complete
+- **Current Phase:** Phase 2 (RAG quality validation with new model)
+- **Phase Progress:** Phase 1: COMPLETE; Phase 2: ~75% (manual quality testing remaining); Phase 3-4: DEFERRED (skipping fine-tuning for MVP)
+- **Overall Project Progress:** ~40% complete (adjusted for model switch)
 
 ### Recent Accomplishments
 
@@ -42,14 +42,18 @@
 - Tailscale Funnel configured on HTTPS port 8443 → localhost:8000 - 2026-02-28
 - M4 latency benchmarked: cold start ~10s, warm avg ~8.8s (6.8-12.3s range) - 2026-02-28
 - Phase 1 complete - 2026-02-28
+- Switched from MLX-LM/Qwen 2.5 3B to Ollama/Gemma 4 31B - 2026-04-09
+- Removed mlx-lm dependency, chat.py now uses httpx → Ollama API - 2026-04-09
+- Deferred Phases 3-4 (fine-tuning): using Gemma 4 base with prompt engineering + RAG for MVP - 2026-04-09
 
 ### Active Work
 
 - [x] ~~Configure Tailscale Funnel for external access~~ - Phase 1, done 2026-02-28
 - [x] ~~Benchmark model latency on M4 target hardware~~ - Phase 1, done 2026-02-28
-- [ ] Test RAG quality with 10-15 manual conversations - target: Phase 2
-- [ ] Curate and expand synthetic training data to 300-500 conversations - target: Phase 3
-- [ ] Review generated conversations for quality and realism - target: Phase 3
+- [x] ~~Switch from MLX-LM/Qwen 2.5 3B to Ollama/Gemma 4 31B~~ - 2026-04-09
+- [ ] Test RAG quality with 10-15 manual conversations using Gemma 4 - target: Phase 2
+- [ ] ~~Curate and expand synthetic training data~~ (deferred — skipping fine-tuning for MVP)
+- [ ] ~~Review generated conversations~~ (deferred)
 
 ## Milestone Tracking
 
@@ -69,26 +73,26 @@
 ### Upcoming Milestones
 
 - [x] ~~Phase 1 complete (baseline model serving + Funnel)~~ - 2026-02-28
-- [ ] Phase 2 complete (RAG pipeline + quality validation) - Target: end of Week 3
-- [ ] Phase 4 complete (fine-tuned model evaluated) - Target: end of Week 5
-- [ ] Phase 5 complete (Cal.com integration live) - Target: end of Week 6
+- [x] ~~Model switch to Ollama/Gemma 4 31B~~ - 2026-04-09
+- [ ] Phase 2 complete (RAG quality validation with Gemma 4)
+- [ ] Phase 5 (Cal.com integration — webhook, chat widget, summary delivery)
+- [ ] Phase 6 (Hardening — guardrails, logging, privacy policy)
 
 ### At-Risk Milestones
 
-- None yet
+- Original Week 6 MVP target has passed; timeline needs resetting after 37-day gap
 
 ## Build and Test Status
 
 ### Build Health
 
-- **Last Successful Build:** 2026-02-28 (uv sync, all imports verified)
+- **Last Successful Build:** 2026-04-09 (uv sync, all tests passing after Ollama switch)
 
 ### Test Results
 
-- 18 tests passing (4 app/health + 5 RAG + 9 summary)
+- 18 tests passing (4 app/main + 5 RAG + 9 summary)
+- Chat tests mock httpx calls to Ollama (no live model needed)
 - RAG tests use in-memory ChromaDB with temporary fixtures
-- All tests use mocked model calls (no GPU needed for CI)
-- **Coverage:** 90% overall (app/summary.py 100%, app/config.py 100%, app/rag.py 89%, app/chat.py 83%, app/main.py 85%)
 
 ### Open Defects
 
@@ -114,12 +118,11 @@
 
 ### In Progress
 
-- [ ] RAG quality validation with manual test conversations - Phase 2
-- [ ] Training data curation and expansion to 300-500 conversations - Phase 3
+- [ ] RAG quality validation with manual test conversations using Gemma 4 - Phase 2
 
 ### Planned
 
-- [ ] Intake conversation engine - Phase 2-4
+- [ ] Multi-turn conversation engine with session state - Phase 2/5
 - [ ] Chat widget UI - Phase 5
 - [ ] Cal.com webhook integration - Phase 5
 - [ ] Summary delivery (email + API) - Phase 5
@@ -127,6 +130,8 @@
 
 ### Deferred or Cut
 
+- LoRA fine-tuning (deferred — using Gemma 4 base + prompt engineering for MVP)
+- Training data curation and expansion (deferred until real data available)
 - Pre-booking flow (deferred to v2)
 - Multi-language support (deferred to v2)
 - Recurring student profiles (deferred to v2)
@@ -146,7 +151,7 @@
 ### External Dependencies
 
 - **Cal.com:** Webhook support needs verification on current plan
-- **MLX-LM:** Requires Apple Silicon (confirmed: Mac Mini M4)
+- **Ollama:** Running on Mac Mini M4 (http://mac-minicore.gerbil-matrix.ts.net:11434)
 - **Tailscale Funnel:** Already available on the tailnet
 
 ### Pending Updates
@@ -167,31 +172,31 @@
 
 - MLX inference on M3 (~3.4 tok/s for 3B model) is much slower than M4 target; benchmark on target hardware before tuning model size
 - Lazy model loading in the chat endpoint lets the app start and serve /health even before the model is downloaded
-- M4 latency benchmark (Qwen2.5 3B, bfloat16): cold start ~10s, warm avg ~8.8s (range 6.8-12.3s). The <2s target is not achievable with the current ~5K-char system prompt (~1,258 tokens prefill) plus up to 256 generation tokens. Reducing system prompt length or max_tokens would improve latency. Consider whether 5-8s is acceptable for a non-realtime intake chat.
+- M4 latency benchmark (Qwen2.5 3B, bfloat16): cold start ~10s, warm avg ~8.8s (range 6.8-12.3s). The <2s target is not achievable with the current ~5K-char system prompt (~1,258 tokens prefill) plus up to 256 generation tokens
 - Tailscale Funnel adds negligible latency (~0.1s overhead vs localhost)
+- Switching from embedded MLX-LM to Ollama HTTP API simplified chat.py significantly — removed model state management, let Ollama handle lifecycle and quantization
+- A stronger base model (31B vs 3B) makes the skip-fine-tuning strategy viable; prompt engineering + RAG can carry the MVP
 
 ## Next Steps
 
 ### Immediate Actions (Next 2 Weeks)
 
-- [x] ~~Configure Tailscale Funnel for external access~~ - 2026-02-28
-- [x] ~~Benchmark model latency on M4 Mac Mini~~ - 2026-02-28 (avg 8.8s; <2s target not achievable with current prompt size)
-- [ ] Test RAG quality with 10-15 manual conversations
-- [x] ~~Begin Phase 3: define student persona matrix for synthetic data~~
-- [ ] Curate generated conversations (review for quality and realism)
-- [ ] Expand training data to 300-500 conversations (increase --variations)
-- [ ] Decide on acceptable latency threshold (current ~8s vs original <2s target)
+- [ ] Benchmark Gemma 4 31B latency on M4 via Ollama (replaces old Qwen benchmark)
+- [ ] Test RAG quality with 10-15 manual conversations using Gemma 4
+- [ ] Verify Cal.com plan supports webhooks (biggest external risk)
+- [ ] Decide on acceptable latency threshold for async intake chat
 
 ### Medium-term Goals (Next Month)
 
-- [ ] 10-15 manual test conversations establishing baseline quality
-- [ ] Training data curated and expanded to 300-500 conversations
-- [ ] LoRA fine-tuning with MLX-LM
+- [ ] Build multi-turn conversation engine with session state management
+- [ ] Implement Cal.com BOOKING_CREATED webhook handler
+- [ ] Build mobile-friendly chat widget UI
+- [ ] Implement summary delivery (email + Cal.com booking notes)
 
 ### Decisions Needed
 
 - Verify Cal.com plan supports webhooks
-- Determine acceptable latency threshold (target <2s)
+- Determine acceptable latency threshold (Gemma 4 31B on M4 via Ollama)
 - Decide on chat link expiration policy (e.g., 48 hours post-booking)
 - Clarify WFU policy on AI disclosure to students
 
@@ -200,9 +205,9 @@
 ### Next Release
 
 - **Version:** v0.1.0 (MVP)
-- **Target Date:** End of Week 6
+- **Target Date:** TBD (original Week 6 target passed; reset after resuming)
 - **Included Features:** Post-booking intake chat, summary delivery, basic guardrails
-- **Release Blockers:** Fine-tuned model quality, Cal.com webhook verification
+- **Release Blockers:** Cal.com webhook verification, conversation engine, chat widget
 
 ### Release History
 

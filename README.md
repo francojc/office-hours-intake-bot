@@ -1,8 +1,5 @@
 # Office Hours Intake Bot
 
-> This project is under active development. The design phase is
-> complete; implementation has not yet begun.
-
 A locally-hosted chatbot that conducts a short intake interview with
 visitors who book office hours appointments through Cal.com. The bot
 asks a few targeted questions, helps visitors articulate what they need,
@@ -43,8 +40,7 @@ The bot runs entirely on a Mac Mini M4 with no cloud LLM dependency.
 
 The stack:
 
-- **LLM inference:** A fine-tuned 3B parameter model (Qwen2.5 Instruct)
-  served via MLX, Apple's native machine learning framework for Silicon
+- **LLM inference:** Gemma 4 31B served locally via Ollama
 - **Context grounding:** A RAG pipeline (LlamaIndex + ChromaDB) indexes
   course syllabi, grammar topics, assignment descriptions, and common
   student pain points so the bot can ask informed follow-up questions
@@ -56,18 +52,22 @@ The stack:
   post-booking; summaries are delivered via email and/or the Cal.com
   booking API
 
-Fine-tuning data will be generated synthetically from a persona matrix
-covering different courses, difficulty levels, communication styles, and
-issue types, then curated by hand before training.
-
 ## Project status
 
 **Phase 0 (Design) — Complete.** Output schema, dialogue flow, course
 taxonomy, and system prompt are finalized in `docs/` and `rag-corpus/`.
 
-**Phase 1 (Infrastructure) — Not started.** Next steps: initialize the
-Python environment, download the base model, stand up a baseline API
-endpoint.
+**Phase 1 (Infrastructure) — Complete.** FastAPI app with /health and
+/chat endpoints, Tailscale Funnel for external HTTPS access, test suite
+(18 tests passing).
+
+**Phase 2 (RAG Pipeline) — In progress.** LlamaIndex + ChromaDB
+pipeline built and wired into /chat. Remaining: quality validation with
+manual test conversations using Gemma 4.
+
+**Phases 3-4 (Fine-tuning) — Deferred.** Switched from Qwen 2.5 3B +
+LoRA fine-tuning to Gemma 4 31B with prompt engineering + RAG. Will
+revisit fine-tuning after collecting real conversation data.
 
 See `specs/` for detailed planning, progress tracking, and
 implementation notes.

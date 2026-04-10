@@ -1,5 +1,6 @@
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import httpx
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -10,9 +11,10 @@ def test_health_returns_ok():
     response = client.get("/health")
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] == "ok"
-    assert "model_path" in data
-    assert "model_loaded" in data
+    assert data["status"] in ("ok", "degraded")
+    assert "ollama_reachable" in data
+    assert "ollama_model" in data
+    assert "rag_index_loaded" in data
 
 
 def test_static_files_served():
@@ -22,18 +24,20 @@ def test_static_files_served():
     assert "Office Hours Intake" in response.text
 
 
-@patch("app.chat.generate", return_value="This is a test reply.")
-@patch("app.chat.get_model")
-def test_chat_returns_reply(mock_get_model, mock_generate):
-    mock_tokenizer = type(
-        "MockTokenizer",
-        (),
-        {
-            "apply_chat_template": lambda self, msgs, **kw: "mock prompt",
-        },
-    )()
-    mock_model = type("MockModel", (), {})()
-    mock_get_model.return_value = (mock_model, mock_tokenizer)
+@patch("app.chat.httpx.AsyncClient")
+def test_chat_returns_reply(mock_client_cls):
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.raise_for_status = MagicMock()
+    mock_response.json.return_value = {
+        "message": {"role": "assistant", "content": "Test reply."},
+    }
+
+    mock_client = AsyncMock()
+    mock_client.post.return_value = mock_response
+    mock_client.__aenter__.return_value = mock_client
+    mock_client.__aexit__.return_value = False
+    mock_client_cls.return_value = mock_client
 
     client = TestClient(app)
     response = client.post(
@@ -41,11 +45,19 @@ def test_chat_returns_reply(mock_get_model, mock_generate):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["reply"] == "This is a test reply."
+    assert data["reply"] == "Test reply."
 
 
-@patch("app.chat.get_model", side_effect=RuntimeError("Model not found"))
-def test_chat_503_when_model_missing(mock_get_model):
+@patch("app.chat.httpx.AsyncClient")
+def test_chat_503_when_ollama_unreachable(mock_client_cls):
+    mock_client = AsyncMock()
+    mock_client.post.side_effect = httpx.ConnectError(
+        "Connection refused"
+    )
+    mock_client.__aenter__.return_value = mock_client
+    mock_client.__aexit__.return_value = False
+    mock_client_cls.return_value = mock_client
+
     client = TestClient(app)
     response = client.post("/chat", json={"message": "hello"})
     assert response.status_code == 503

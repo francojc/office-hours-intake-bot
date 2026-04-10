@@ -4,15 +4,14 @@
 # Office Hours Intake Bot on a fresh macOS (Apple Silicon) clone.
 #
 # What it does:
-#   1. Checks prerequisites (Apple Silicon, Python 3.11+, uv)
+#   1. Checks prerequisites (Apple Silicon, Python 3.11+, uv, ollama)
 #   2. Installs Python dependencies via uv
-#   3. Downloads and converts the base LLM to MLX format
+#   3. Pulls the Gemma 4 31B model via Ollama
 #   4. Builds the ChromaDB vector store from rag-corpus/
-#   5. (Optional) Fine-tunes a LoRA adapter if training-data/ exists
 #
 # Usage:
 #   ./scripts/setup-environment.sh          # full setup
-#   ./scripts/setup-environment.sh --skip-model   # skip model download
+#   ./scripts/setup-environment.sh --skip-model   # skip model pull
 #   ./scripts/setup-environment.sh --skip-rag     # skip RAG index build
 
 set -euo pipefail
@@ -22,10 +21,7 @@ cd "$REPO_ROOT"
 
 # --- Configuration --------------------------------------------------------
 
-HF_MODEL="Qwen/Qwen2.5-3B-Instruct"
-MLX_MODEL_PATH="./models/qwen2.5-3b"
-ADAPTER_PATH="./adapters/intake-bot-v1"
-TRAINING_DATA_DIR="./training-data"
+OLLAMA_MODEL="gemma4:31b"
 RAG_CORPUS_DIR="./rag-corpus"
 CHROMA_DB_DIR="./chroma_db"
 
@@ -83,6 +79,11 @@ if ! command -v uv &>/dev/null; then
 fi
 ok "uv $(uv --version 2>/dev/null | head -1)"
 
+if ! command -v ollama &>/dev/null; then
+    fail "ollama not found. Install from https://ollama.com"
+fi
+ok "ollama $(ollama --version 2>/dev/null | head -1)"
+
 # --- Python dependencies -------------------------------------------------
 
 info "Installing Python dependencies"
@@ -92,18 +93,14 @@ ok "Dependencies installed"
 # --- LLM model -----------------------------------------------------------
 
 if [[ "$SKIP_MODEL" == true ]]; then
-    warn "Skipping model download (--skip-model)"
+    warn "Skipping model pull (--skip-model)"
 else
-    info "Setting up LLM model"
-    if [[ -d "$MLX_MODEL_PATH" ]] && [[ -f "$MLX_MODEL_PATH/config.json" ]]; then
-        ok "Model already exists at $MLX_MODEL_PATH"
+    info "Pulling $OLLAMA_MODEL via Ollama"
+    if ollama list 2>/dev/null | grep -q "$OLLAMA_MODEL"; then
+        ok "Model $OLLAMA_MODEL already available"
     else
-        info "Converting $HF_MODEL to MLX format at $MLX_MODEL_PATH"
-        mkdir -p "$(dirname "$MLX_MODEL_PATH")"
-        uv run mlx_lm.convert \
-            --hf-path "$HF_MODEL" \
-            --mlx-path "$MLX_MODEL_PATH"
-        ok "Model downloaded and converted"
+        ollama pull "$OLLAMA_MODEL"
+        ok "Model $OLLAMA_MODEL pulled"
     fi
 fi
 
@@ -125,35 +122,13 @@ print(f'Indexed {count} documents into ChromaDB')
     fi
 fi
 
-# --- LoRA fine-tuning (optional) ------------------------------------------
-
-if [[ -d "$TRAINING_DATA_DIR" ]] && \
-   compgen -G "$TRAINING_DATA_DIR/*.jsonl" >/dev/null 2>&1; then
-    info "Training data found — fine-tuning LoRA adapter"
-    if [[ -d "$ADAPTER_PATH" ]] && \
-       [[ -f "$ADAPTER_PATH/adapters.safetensors" ]]; then
-        ok "Adapter already exists at $ADAPTER_PATH"
-    else
-        mkdir -p "$ADAPTER_PATH"
-        uv run mlx_lm.lora \
-            --model "$MLX_MODEL_PATH" \
-            --train \
-            --data "$TRAINING_DATA_DIR" \
-            --adapter-path "$ADAPTER_PATH"
-        ok "LoRA adapter saved to $ADAPTER_PATH"
-    fi
-else
-    warn "No training data (*.jsonl) in $TRAINING_DATA_DIR — skipping fine-tuning"
-fi
-
 # --- Summary --------------------------------------------------------------
 
 echo ""
 info "Setup complete"
 echo ""
-echo "  Model:      $MLX_MODEL_PATH"
+echo "  Model:      $OLLAMA_MODEL (served by Ollama)"
 echo "  Vector DB:  $CHROMA_DB_DIR"
-echo "  Adapters:   $ADAPTER_PATH"
 echo ""
 echo "Start the dev server with:"
 echo "  uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"

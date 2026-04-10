@@ -7,7 +7,10 @@ class Settings(BaseSettings):
     model_config = {"env_prefix": "INTAKE_BOT_"}
 
     app_name: str = "Office Hours Intake Bot"
-    model_path: Path = Path("models/qwen2.5-3b")
+    ollama_model: str = "gemma4:31b"
+    ollama_base_url: str = (
+        "http://mac-minicore.gerbil-matrix.ts.net:11434"
+    )
     max_turns: int = 10
     host: str = "0.0.0.0"
     port: int = 8000

@@ -2,13 +2,13 @@
 
 **Project:** Office Hours Intake Bot
 **Status:** In Progress
-**Last Updated:** 2026-02-19
+**Last Updated:** 2026-04-09
 
 ## Architecture
 
 ### System Design
 
-- **Architecture Pattern:** Monolith (FastAPI service with embedded LLM)
+- **Architecture Pattern:** Monolith (FastAPI service calling Ollama for LLM inference)
 - **Primary Language:** Python 3.11+
 - **Framework:** FastAPI + Uvicorn
 - **Build System:** uv (package manager and virtual environment)
@@ -19,16 +19,14 @@
 office-hours-intake-bot/
 ├── app/                   # Application source code
 │   ├── main.py            # FastAPI entry point
-│   ├── chat.py            # Intake conversation engine
+│   ├── chat.py            # Ollama-backed conversation engine
 │   ├── rag.py             # RAG pipeline (LlamaIndex + ChromaDB)
 │   ├── summary.py         # Summary generation and schema validation
 │   ├── delivery.py        # Email and Cal.com API delivery
 │   ├── webhooks.py        # Cal.com webhook handlers
 │   └── config.py          # Configuration and environment handling
-├── models/                # Downloaded/fused LLM models
-│   └── qwen2.5-3b/        # Base model (MLX format)
-├── adapters/              # LoRA adapter checkpoints
-│   └── intake-bot-v1/     # Fine-tuned adapter weights
+├── models/                # (unused — model served by Ollama)
+├── adapters/              # (unused — fine-tuning deferred)
 ├── rag-corpus/            # Source documents for RAG indexing
 │   ├── spa212/            # SPA 212-T course materials
 │   └── general/           # Office hours scope, referral resources
@@ -57,8 +55,8 @@ office-hours-intake-bot/
 
 1. **app/chat.py — Intake Conversation Engine**
    - **Purpose:** Manages multi-turn intake dialogue with students
-   - **Public Interface:** `IntakeSession` class, `process_turn()`, `is_complete()`
-   - **Dependencies:** MLX-LM (model inference), RAG pipeline (context retrieval)
+   - **Public Interface:** `chat()` endpoint, `ChatRequest`/`ChatResponse` models
+   - **Dependencies:** Ollama (via httpx), RAG pipeline (context retrieval)
 
 2. **app/rag.py — RAG Pipeline**
    - **Purpose:** Indexes course materials and retrieves relevant context per conversation turn
@@ -94,7 +92,7 @@ office-hours-intake-bot/
 - **Language Runtime:** Python 3.11+ (via uv)
 - **Package Manager:** uv with uv.lock for reproducibility
 - **Environment Management:** uv venv + direnv + flake.nix
-- **Local Services:** ChromaDB (embedded, no separate process)
+- **Local Services:** ChromaDB (embedded, no separate process), Ollama (LLM inference server)
 
 ### Build and Run
 
@@ -115,21 +113,11 @@ tailscale funnel 8000
 ### Model Operations
 
 ```bash
-# Download and convert base model
-uv run mlx_lm.convert --hf-path Qwen/Qwen2.5-3B-Instruct --mlx-path ./models/qwen2.5-3b
+# Pull the LLM model via Ollama
+ollama pull gemma4:31b
 
-# Fine-tune with LoRA
-uv run mlx_lm.lora \
-  --model ./models/qwen2.5-3b \
-  --train --data ./training-data/ \
-  --batch-size 4 --lora-layers 8 --iters 1000 \
-  --adapter-path ./adapters/intake-bot-v1
-
-# Fuse adapter into model
-uv run mlx_lm.fuse \
-  --model ./models/qwen2.5-3b \
-  --adapter-path ./adapters/intake-bot-v1 \
-  --save-path ./models/intake-bot-v1-fused
+# Verify model is available
+ollama list
 ```
 
 ### Code Standards
@@ -169,7 +157,7 @@ uv run pytest --cov=app
 ### Test Data
 
 - **Fixtures:** tests/fixtures/ with sample conversations and webhook payloads
-- **Mocks:** Mock MLX-LM model responses for unit tests
+- **Mocks:** Mock httpx calls to Ollama API for unit tests
 - **Test Databases:** In-memory ChromaDB for RAG tests
 
 ## Deployment
@@ -200,8 +188,8 @@ uv run pytest --cov=app
 
 ### Health Checks
 
-- **Endpoints:** GET /health returns model status, RAG index status
-- **Dependency Checks:** model_loaded flag, rag_index_loaded flag
+- **Endpoints:** GET /health returns Ollama reachability, model availability, RAG index status
+- **Dependency Checks:** ollama_reachable, ollama_model_available, rag_index_loaded
 
 ## Security Considerations
 
@@ -240,3 +228,6 @@ uv run pytest --cov=app
 | 2026-02-19 | all-MiniLM-L6-v2 for RAG embeddings | Small (80MB), fast, good enough for 4-doc corpus | all-mpnet-base-v2 (larger, marginal quality gain) |
 | 2026-02-19 | System prompt loaded from file at startup | Easy to iterate on prompt without code changes | Embedded as Python constant |
 | 2026-02-19 | Lifespan handler for RAG indexing | Replaces deprecated @app.on_event; indexes once at startup | Lazy indexing on first /chat request |
+| 2026-04-09 | Switch from MLX-LM to Ollama | Gemma 4 31B via Ollama is more capable; Ollama already runs on Mac Mini; enables skipping fine-tuning for MVP | Keep MLX-LM and wait for Gemma 4 support |
+| 2026-04-09 | Gemma 4 31B instead of Qwen 2.5 3B | Significantly more capable base model; multimodal; strong benchmarks; 4-bit fits in 32GB | Qwen 2.5 3B + LoRA fine-tuning |
+| 2026-04-09 | Defer LoRA fine-tuning (Phases 3-4) | Gemma 4 31B with prompt engineering + RAG should be sufficient for MVP; fine-tune later with real data | Fine-tune before shipping |
