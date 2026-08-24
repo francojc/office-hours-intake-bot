@@ -48,6 +48,7 @@
 - Project resumed after 137-day gap; repo review and docs refresh - 2026-08-24
 - Verified environment reproducibility (fresh uv sync) and test suite health: 17/18 pass, 1 flaky RAG test - 2026-08-24
 - Renamed CLAUDE.md to AGENTS.md; refreshed README development section - 2026-08-24
+- Vetted Cal.com integration: free-tier BOOKING_CREATED webhook + /v2 API confirmed; dropped booking-notes delivery (v2 can't patch notes on existing booking), summary goes by email; decision to stay on Cal.com SaaS for MVP - 2026-08-24
 
 ### Active Work
 
@@ -55,6 +56,7 @@
 - [x] ~~Benchmark model latency on M4 target hardware~~ - Phase 1, done 2026-02-28
 - [x] ~~Switch from MLX-LM/Qwen 2.5 3B to Ollama/Gemma 4 31B~~ - 2026-04-09
 - [ ] Test RAG quality with 10-15 manual conversations using Gemma 4 - target: Phase 2
+- [ ] Vetting Cal.com integration (webhook ✓ verified free tier, booking-notes ✗ unsupported, provider adapter) - Phase 5
 - [ ] ~~Curate and expand synthetic training data~~ (deferred — skipping fine-tuning for MVP)
 - [ ] ~~Review generated conversations~~ (deferred)
 
@@ -153,7 +155,7 @@
 
 ### External Dependencies
 
-- **Cal.com:** Webhook support needs verification on current plan
+- **Cal.com:** Webhook support VERIFIED on free plan (2026-08-24): BOOKING_CREATED trigger + /v2 API key auth (120 req/min). Public HTTPS subscriber URL required — satisfied by Tailscale Funnel :8443. No endpoint to patch booking notes on existing booking. Provider sits behind thin adapter (see decision log in implementation.md).
 - **Ollama:** Running on Mac Mini M4 (http://mac-minicore.gerbil-matrix.ts.net:11434)
 - **Tailscale Funnel:** Already available on the tailnet
 
@@ -200,7 +202,7 @@
 
 ### Decisions Needed
 
-- Verify Cal.com plan supports webhooks
+- ~~Verify Cal.com plan supports webhooks~~ (resolved 2026-08-24: free tier supports webhooks + API; summary delivery email-only)
 - Determine acceptable latency threshold (Gemma 4 31B on M4 via Ollama)
 - Decide on chat link expiration policy (e.g., 48 hours post-booking)
 - Clarify WFU policy on AI disclosure to students

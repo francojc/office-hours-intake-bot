@@ -1,8 +1,8 @@
 # Application Project Planning
 
 **Project:** Office Hours Intake Bot
-**Status:** Phase 2 In Progress (model switched to Ollama/Gemma 4)
-**Last Updated:** 2026-04-09
+**Status:** Phase 2 In Progress (model switched to Ollama/Gemma 4); Cal.com integration vetting underway
+**Last Updated:** 2026-08-24
 
 ## Project Overview
 
@@ -111,7 +111,9 @@ Deferred: relying on Gemma 4 31B base capabilities for MVP.
 - [ ] Set up Cal.com webhook for BOOKING_CREATED events
 - [ ] Implement booking confirmation flow and session management
 - [ ] Build mobile-friendly chat widget UI
-- [ ] Implement summary delivery (email + Cal.com booking notes)
+- [ ] Implement summary delivery via email (Cal.com v2 has no endpoint to patch notes on an existing booking; booking-notes delivery dropped)
+
+> **Cal.com vetting (2026-08-24):** BOOKING_CREATED webhook + /v2 API confirmed on the free plan. Tailscale Funnel HTTPS satisfies the public-HTTPS subscriber URL requirement. Stay on Cal.com SaaS for MVP; keep provider behind a thin adapter (closed-source shift + API restructure = strategic risk). Full findings in `specs/implementation.md` decision log.
 
 ### Phase 6: Hardening and Iteration (Ongoing)
 
@@ -146,6 +148,7 @@ Deferred: relying on Gemma 4 31B base capabilities for MVP.
 
 ### Technical Risks
 
+- Cal.com SaaS webhook fires to our Tailscale Funnel: if Mac Mini is offline when a booking lands, BOOKING_CREATED may be missed (retry behavior unverified). Acceptable for dev/MVP; revisit for production.
 - Model quality insufficient at 31B 4-bit: fallback to smaller quantization-aware model
 - Tailscale Funnel instability: add health check + auto-restart
 - M4 thermal throttling under load: unlikely with single-user sequential load
@@ -154,7 +157,7 @@ Deferred: relying on Gemma 4 31B base capabilities for MVP.
 
 - Feature creep toward pre-booking flow or multi-language: defer to v2
 - Fine-tuning data not diverse enough: ensure persona matrix coverage
-- Cal.com plan may not support webhooks: verify before building integration
+- ~~Cal.com plan may not support webhooks~~ (resolved 2026-08-24: free tier supports BOOKING_CREATED webhooks + /v2 API)
 
 ## Success Metrics
 

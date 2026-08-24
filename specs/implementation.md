@@ -2,7 +2,7 @@
 
 **Project:** Office Hours Intake Bot
 **Status:** In Progress
-**Last Updated:** 2026-04-09
+**Last Updated:** 2026-08-24
 
 ## Architecture
 
@@ -74,9 +74,10 @@ office-hours-intake-bot/
    - **Dependencies:** Pydantic
 
 5. **app/delivery.py — Summary Delivery**
-   - **Purpose:** Sends completed summaries via email and/or Cal.com API
+   - **Purpose:** Sends completed summaries to the professor via email (primary path)
    - **Public Interface:** `deliver_summary()`
    - **Dependencies:** httpx, email libraries
+   - **Note:** No Cal.com booking-notes delivery — v2 API has no endpoint to patch notes on an existing booking (only PATCH `BOOKING_LOCATION`). Summary goes by email only.
 
 ### Data Model
 
@@ -231,3 +232,6 @@ uv run pytest --cov=app
 | 2026-04-09 | Switch from MLX-LM to Ollama | Gemma 4 31B via Ollama is more capable; Ollama already runs on Mac Mini; enables skipping fine-tuning for MVP | Keep MLX-LM and wait for Gemma 4 support |
 | 2026-04-09 | Gemma 4 31B instead of Qwen 2.5 3B | Significantly more capable base model; multimodal; strong benchmarks; 4-bit fits in 32GB | Qwen 2.5 3B + LoRA fine-tuning |
 | 2026-04-09 | Defer LoRA fine-tuning (Phases 3-4) | Gemma 4 31B with prompt engineering + RAG should be sufficient for MVP; fine-tune later with real data | Fine-tune before shipping |
+| 2026-08-24 | Stay on Cal.com SaaS (free tier) for MVP | BOOKING_CREATED webhooks + /v2 API available on free plan; Tailscale Funnel HTTPS satisfies the public-HTTPS subscriber URL requirement | Cal.diy (heavy self-host), CalNode (immature v0.4.0) |
+| 2026-08-24 | Summary delivery via email only (no Cal.com booking-notes update) | Cal.com v2 API has no PATCH endpoint for existing booking notes; email is the primary planned path | Update booking notes via API (unsupported) |
+| 2026-08-24 | Abstract scheduling provider behind a thin adapter | Cal.com went closed source (April 2026) and restructured its API; keep provider swappable (Cal.diy/CalNode) without reworking bot logic | Tight-couple to Cal.com |
