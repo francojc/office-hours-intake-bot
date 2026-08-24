@@ -2,7 +2,7 @@
 
 **Project:** Office Hours Intake Bot
 **Status:** Phase 2 In Progress — Model switched to Ollama/Gemma 4
-**Last Updated:** 2026-04-09
+**Last Updated:** 2026-08-24
 
 ## Current Status Overview
 
@@ -45,6 +45,9 @@
 - Switched from MLX-LM/Qwen 2.5 3B to Ollama/Gemma 4 31B - 2026-04-09
 - Removed mlx-lm dependency, chat.py now uses httpx → Ollama API - 2026-04-09
 - Deferred Phases 3-4 (fine-tuning): using Gemma 4 base with prompt engineering + RAG for MVP - 2026-04-09
+- Project resumed after 137-day gap; repo review and docs refresh - 2026-08-24
+- Verified environment reproducibility (fresh uv sync) and test suite health: 17/18 pass, 1 flaky RAG test - 2026-08-24
+- Renamed CLAUDE.md to AGENTS.md; refreshed README development section - 2026-08-24
 
 ### Active Work
 
@@ -96,7 +99,7 @@
 
 ### Open Defects
 
-- None
+- Flaky test: `tests/test_rag.py::test_build_index_creates_collection` fails intermittently in full-suite runs (ChromaDB OSError), passes in isolation. Suspected tmp-dir/HF-download race; needs investigation
 
 ## Feature Progress
 
@@ -140,7 +143,7 @@
 
 ### Known Debt
 
-- None yet
+- Dev dependencies defined in `[project.optional-dependencies]` instead of `[dependency-groups]`; plain `uv sync` does not install pytest/ruff. Consider migrating
 
 ### Recently Resolved
 
@@ -181,6 +184,8 @@
 
 ### Immediate Actions (Next 2 Weeks)
 
+- [ ] Fix flaky `test_build_index_creates_collection` RAG test
+- [ ] Migrate dev deps from `[project.optional-dependencies]` to `[dependency-groups]`
 - [ ] Benchmark Gemma 4 31B latency on M4 via Ollama (replaces old Qwen benchmark)
 - [ ] Test RAG quality with 10-15 manual conversations using Gemma 4
 - [ ] Verify Cal.com plan supports webhooks (biggest external risk)

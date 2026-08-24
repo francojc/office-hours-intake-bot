@@ -61,16 +61,29 @@ taxonomy, and system prompt are finalized in `docs/` and `rag-corpus/`.
 /chat endpoints, Tailscale Funnel for external HTTPS access, test suite
 (18 tests passing).
 
-**Phase 2 (RAG Pipeline) — In progress.** LlamaIndex + ChromaDB
+**Phase 2 (RAG Pipeline) — In progress (~75%).** LlamaIndex + ChromaDB
 pipeline built and wired into /chat. Remaining: quality validation with
 manual test conversations using Gemma 4.
+
+**Phases 5-6 (Integration & Hardening) — Not started.** Multi-turn
+conversation engine with session state, Cal.com webhook handler, chat
+widget UI, summary delivery, and guardrails.
 
 **Phases 3-4 (Fine-tuning) — Deferred.** Switched from Qwen 2.5 3B +
 LoRA fine-tuning to Gemma 4 31B with prompt engineering + RAG. Will
 revisit fine-tuning after collecting real conversation data.
 
-See `specs/` for detailed planning, progress tracking, and
-implementation notes.
+## Development
+
+```bash
+uv sync --extra dev        # install deps incl. test/lint tooling
+uv run pytest              # run tests (18 total)
+uv run ruff check app/ tests/
+./scripts/setup-environment.sh   # full env setup (model + RAG index)
+```
+
+Agent guidance lives in `AGENTS.md`. See `specs/` for detailed
+planning, progress tracking, and implementation notes.
 
 ## License
 

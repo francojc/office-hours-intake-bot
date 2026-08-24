@@ -105,7 +105,7 @@ CLI v1.94.2) to avoid the Nix CLI version-mismatch warning.
 
 On a new machine: create `~/.local/bin/funnel-on.sh` and `funnel-off.sh` as
 thin wrappers (exec the scripts/ versions) and recreate settings.local.json
-with the hook config from CLAUDE.md or a teammate's copy.
+with the hook config from AGENTS.md or a teammate's copy.
 
 ## Known Gotchas
 
